@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/classical-29fac16b-816b-4845-9045-40b7ebf34778/styles.css">
+<script src="_ds/classical-29fac16b-816b-4845-9045-40b7ebf34778/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  :root { --ink: #1b2a1f; --paper: #f7f6f0; }
+  body { background: var(--color-bg); color: var(--color-text); }
+  a { color: var(--color-accent-700); }
+  a:hover { color: var(--color-accent); }
+  ::selection { background: color-mix(in srgb, var(--color-accent) 28%, transparent); }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:var(--color-bg)">
+
+  <header style="position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--color-bg) 92%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-divider)">
+    <div style="max-width:1180px;margin:0 auto;padding:var(--space-3) var(--space-6);display:flex;align-items:center;gap:var(--space-6)">
+      <button onClick="{{ goHome }}" style="display:flex;flex-direction:column;gap:1px;background:none;border:0;padding:0;cursor:pointer;text-align:left;color:var(--color-text)">
+        <span style="font-family:var(--font-heading);font-size:23px;line-height:1;letter-spacing:0.01em">The Marigold Arms</span>
+        <span style="font-family:var(--font-body);font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--color-accent-700);font-feature-settings:'tnum'">Kensington &middot; est. 1848</span>
+      </button>
+      <nav style="margin-left:auto;display:flex;align-items:center;gap:var(--space-6)">
+        <button onClick="{{ goHome }}" style="{{ navHome }}">Home</button>
+        <button onClick="{{ goMenus }}" style="{{ navMenus }}">Menus</button>
+        <button onClick="{{ goDrinks }}" style="{{ navDrinks }}">Drinks</button>
+        <button onClick="{{ goGallery }}" style="{{ navGallery }}">Gallery</button>
+        <button onClick="{{ goVisit }}" style="{{ navVisit }}">Visit</button>
+        <button class="btn btn-primary" onClick="{{ goVisit }}" style="letter-spacing:0.06em;text-transform:uppercase;font-size:12px">Book a table</button>
+      </nav>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="position:relative;height:min(86vh,760px);min-height:520px;overflow:hidden">
+      <div style="position:absolute;inset:0">
+        <image-slot id="hero" shape="rect" placeholder="Drop the pub exterior — flowers, evening light"></image-slot>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom, color-mix(in srgb, var(--ink) 62%, transparent), color-mix(in srgb, var(--ink) 22%, transparent) 55%, color-mix(in srgb, var(--ink) 70%, transparent))"></div>
+      <div style="position:absolute;inset:0;display:grid;place-items:center;padding:var(--space-8);pointer-events:none">
+        <div style="text-align:center;max-width:840px;color:var(--paper)">
+          <p style="font-size:11px;letter-spacing:0.34em;text-transform:uppercase;color:var(--color-accent-300);margin:0 0 var(--space-4)">A Kensington public house</p>
+          <h1 style="font-size:clamp(46px,7vw,96px);font-weight:400;line-height:1.02;margin:0;letter-spacing:-0.02em">Two thousand blooms,<br>one very good kitchen</h1>
+          <div style="width:88px;height:1px;background:var(--color-accent-400);margin:var(--space-6) auto"></div>
+          <p style="font-size:17px;line-height:1.7;margin:0 auto var(--space-6);max-width:52ch;color:color-mix(in srgb, var(--paper) 84%, transparent)">Since 1848 we have poured cask ale under a hanging garden. Today the back room serves a short, seasonal British menu that Londoners book two weeks ahead.</p>
+          <div style="display:flex;gap:var(--space-3);justify-content:center;pointer-events:auto">
+            <button class="btn btn-primary" onClick="{{ goMenus }}" style="color:var(--color-accent-300);border-color:var(--color-accent-300);letter-spacing:0.08em;text-transform:uppercase;font-size:12px;padding:11px 22px">See the menus</button>
+            <button class="btn btn-secondary" onClick="{{ goVisit }}" style="color:var(--paper);border-color:color-mix(in srgb, var(--paper) 45%, transparent);letter-spacing:0.08em;text-transform:uppercase;font-size:12px;padding:11px 22px">Reserve</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="border-bottom:1px solid var(--color-divider);background:var(--color-surface)">
+      <div style="max-width:1180px;margin:0 auto;padding:var(--space-4) var(--space-6);display:flex;flex-wrap:wrap;gap:var(--space-6);justify-content:center;align-items:center;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:color-mix(in srgb, var(--color-text) 58%, transparent);font-feature-settings:'tnum'">
+        <span>Good Pub Guide &mdash; London Pub of the Year 2024</span>
+        <span style="width:1px;height:14px;background:var(--color-divider)"></span>
+        <span>Cask Marque accredited</span>
+        <span style="width:1px;height:14px;background:var(--color-divider)"></span>
+        <span>Chelsea Flower Show, gold 2019 &amp; 2023</span>
+      </div>
+    </section>
+
+    <section data-reveal style="transition:opacity 700ms ease,transform 700ms ease;max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*2.2) var(--space-6)">
+      <div style="display:grid;grid-template-columns:minmax(0,0.85fr) 1px minmax(0,1.15fr);gap:var(--space-8)">
+        <div>
+          <h2 style="font-size:38px;font-weight:400;line-height:1.1;margin:0">The pub at the corner of Elder Street</h2>
+          <p style="margin-top:var(--space-4);font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-700)">Our story</p>
+        </div>
+        <div style="background:var(--color-divider)"></div>
+        <div style="columns:2;column-gap:var(--space-8);column-rule:1px solid var(--color-divider);text-align:justify;hyphens:auto;font-size:15px;line-height:1.8">
+          <p style="margin-top:0"><span style="float:left;font-family:var(--font-heading);font-size:56px;line-height:0.82;padding:4px 8px 0 0;color:var(--color-accent-700)">W</span>e have been a licensed house for one hundred and seventy-eight years, and a flower shop by accident for forty of them. What began as one landlord's window box now runs the length of the building &mdash; some two thousand blooms, replanted four times a year by the same family in Wandsworth.</p>
+          <p>Inside, little has moved. The mahogany horseshoe bar is original, the chamber pots on the ceiling arrived in 1984 and have not been counted since. What has changed is the food. In 2016 we handed the back kitchen to Rosalind Vane, who cooks a short menu from the day's market: nine or ten plates, written out each morning, gone by ten at night.</p>
+          <p style="margin-bottom:0">We keep six cask lines, a small list of grower Champagne, and a fire in the snug from October. No televisions. No reservations at the bar &mdash; only in the dining room, where we would very much like to see you.</p>
+        </div>
+      </div>
+    </section>
+
+    <section data-reveal style="transition:opacity 700ms ease,transform 700ms ease;background:var(--ink);color:var(--paper)">
+      <div style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*2) var(--space-6)">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-6);border-bottom:1px solid color-mix(in srgb, var(--paper) 22%, transparent);padding-bottom:var(--space-4)">
+          <h2 style="font-size:34px;font-weight:400;margin:0">This week at the Marigold</h2>
+          <p style="margin:0;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-300);font-feature-settings:'tnum'">Written 27 July</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:var(--space-8)">
+          <article style="padding-right:var(--space-8);border-right:1px solid color-mix(in srgb, var(--paper) 18%, transparent);display:flex;flex-direction:column;gap:var(--space-4)">
+            <div style="height:280px"><image-slot id="feat-kitchen" shape="rect" placeholder="Drop a plated dish"></image-slot></div>
+            <p style="margin:0;font-family:var(--font-heading);font-size:15px;letter-spacing:0.16em;color:var(--color-accent-300);font-feature-settings:'tnum'">I.</p>
+            <h3 style="font-size:27px;font-weight:400;margin:0">The kitchen</h3>
+            <p style="margin:0;font-size:14px;line-height:1.75;color:color-mix(in srgb, var(--paper) 76%, transparent);flex:1">Ten plates a day, market-led and mostly British. Dorset crab, Tamworth pork, gooseberries from Kent while they last.</p>
+            <button class="btn btn-ghost" onClick="{{ goMenus }}" style="align-self:flex-start;color:var(--color-accent-300);padding-left:0;letter-spacing:0.1em;text-transform:uppercase;font-size:11px">Read the menu &rarr;</button>
+          </article>
+          <article style="padding:0 var(--space-8);border-right:1px solid color-mix(in srgb, var(--paper) 18%, transparent);display:flex;flex-direction:column;gap:var(--space-4)">
+            <div style="height:280px"><image-slot id="feat-bar" shape="rect" placeholder="Drop a pint at the bar"></image-slot></div>
+            <p style="margin:0;font-family:var(--font-heading);font-size:15px;letter-spacing:0.16em;color:var(--color-accent-300);font-feature-settings:'tnum'">II.</p>
+            <h3 style="font-size:27px;font-weight:400;margin:0">The cellar</h3>
+            <p style="margin:0;font-size:14px;line-height:1.75;color:color-mix(in srgb, var(--paper) 76%, transparent);flex:1">Six cask lines kept properly, forty wines by the bottle and eleven by the glass, and a negroni that has not changed since 1998.</p>
+            <button class="btn btn-ghost" onClick="{{ goDrinks }}" style="align-self:flex-start;color:var(--color-accent-300);padding-left:0;letter-spacing:0.1em;text-transform:uppercase;font-size:11px">See the list &rarr;</button>
+          </article>
+          <article style="padding-left:var(--space-8);display:flex;flex-direction:column;gap:var(--space-4)">
+            <div style="height:280px"><image-slot id="feat-flowers" shape="rect" placeholder="Drop the flower facade"></image-slot></div>
+            <p style="margin:0;font-family:var(--font-heading);font-size:15px;letter-spacing:0.16em;color:var(--color-accent-300);font-feature-settings:'tnum'">III.</p>
+            <h3 style="font-size:27px;font-weight:400;margin:0">The flowers</h3>
+            <p style="margin:0;font-size:14px;line-height:1.75;color:color-mix(in srgb, var(--paper) 76%, transparent);flex:1">Replanted each season, lit from October, and photographed rather a lot. Come at dusk in December for the full effect.</p>
+            <button class="btn btn-ghost" onClick="{{ goGallery }}" style="align-self:flex-start;color:var(--color-accent-300);padding-left:0;letter-spacing:0.1em;text-transform:uppercase;font-size:11px">Open the gallery &rarr;</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section data-reveal style="transition:opacity 700ms ease,transform 700ms ease;max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*2.2) var(--space-6)">
+      <div style="text-align:center;margin-bottom:var(--space-8)">
+        <p style="margin:0 0 var(--space-2);font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--color-accent-700)">From tonight's card</p>
+        <h2 style="font-size:40px;font-weight:400;margin:0">Three things worth crossing town for</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-8)">
+        <figure>
+          <div class="plate" style="height:330px"><image-slot id="sig-1" shape="rect" placeholder="Drop the crab dish"></image-slot></div>
+          <div style="display:flex;align-items:baseline;gap:var(--space-2);margin-top:var(--space-4)">
+            <h3 style="margin:0;font-size:23px;font-weight:400">Dorset crab, brown butter toast</h3>
+            <span style="flex:1;height:1px;background:var(--color-divider)"></span>
+            <span style="font-family:var(--font-heading);font-size:19px;font-feature-settings:'tnum'">16</span>
+          </div>
+          <figcaption style="font-size:13.5px;line-height:1.7;margin-top:6px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Hand-picked white meat, lemon, a great deal of butter, sourdough from Elder Street.</figcaption>
+        </figure>
+        <figure>
+          <div class="plate" style="height:330px"><image-slot id="sig-2" shape="rect" placeholder="Drop the pie"></image-slot></div>
+          <div style="display:flex;align-items:baseline;gap:var(--space-2);margin-top:var(--space-4)">
+            <h3 style="margin:0;font-size:23px;font-weight:400">Steak &amp; Marigold ale pie</h3>
+            <span style="flex:1;height:1px;background:var(--color-divider)"></span>
+            <span style="font-family:var(--font-heading);font-size:19px;font-feature-settings:'tnum'">24</span>
+          </div>
+          <figcaption style="font-size:13.5px;line-height:1.7;margin-top:6px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Shin braised four hours in our house bitter, suet lid, mash and greens.</figcaption>
+        </figure>
+        <figure>
+          <div class="plate" style="height:330px"><image-slot id="sig-3" shape="rect" placeholder="Drop the pudding"></image-slot></div>
+          <div style="display:flex;align-items:baseline;gap:var(--space-2);margin-top:var(--space-4)">
+            <h3 style="margin:0;font-size:23px;font-weight:400">Burnt honey custard tart</h3>
+            <span style="flex:1;height:1px;background:var(--color-divider)"></span>
+            <span style="font-family:var(--font-heading);font-size:19px;font-feature-settings:'tnum'">9</span>
+          </div>
+          <figcaption style="font-size:13.5px;line-height:1.7;margin-top:6px;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Honey from the roof of the Kensington Library, three doors down. Cut thin.</figcaption>
+        </figure>
+      </div>
+      <div style="text-align:center;margin-top:var(--space-8)">
+        <button class="btn btn-primary" onClick="{{ goMenus }}" style="letter-spacing:0.1em;text-transform:uppercase;font-size:12px;padding:12px 26px">The full menu</button>
+      </div>
+    </section>
+
+    <section data-reveal style="transition:opacity 700ms ease,transform 700ms ease;border-top:1px solid var(--color-divider);background:var(--color-surface)">
+      <div style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*1.8) var(--space-6);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:calc(var(--space-8)*1.6);align-items:center">
+        <div>
+          <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--color-accent-700)">The dining room</p>
+          <h2 style="font-size:36px;font-weight:400;margin:0 0 var(--space-4)">Twenty-six covers, two sittings, one long table</h2>
+          <p style="font-size:15px;line-height:1.8;text-align:justify;margin:0 0 var(--space-6);color:color-mix(in srgb, var(--color-text) 78%, transparent)">Upstairs holds twenty-six. We seat at six-thirty and again at half past eight, and hold the long oak table for parties of eight or more. Sunday is one sitting from noon until the beef runs out, which is usually four.</p>
+          <div style="display:grid;gap:var(--space-3);font-size:14px;font-feature-settings:'tnum'">
+            <div style="display:flex;gap:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--color-divider)"><span style="width:120px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Mon &ndash; Thu</span><span>Noon &ndash; 11pm &middot; kitchen till 9.30</span></div>
+            <div style="display:flex;gap:var(--space-4);padding-bottom:var(--space-3);border-bottom:1px solid var(--color-divider)"><span style="width:120px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Fri &ndash; Sat</span><span>Noon &ndash; midnight &middot; kitchen till 10</span></div>
+            <div style="display:flex;gap:var(--space-4)"><span style="width:120px;color:color-mix(in srgb, var(--color-text) 55%, transparent)">Sunday</span><span>Noon &ndash; 10.30pm &middot; roast till 4</span></div>
+          </div>
+          <button class="btn btn-primary" onClick="{{ goVisit }}" style="margin-top:var(--space-6);letter-spacing:0.1em;text-transform:uppercase;font-size:12px;padding:12px 26px">Reserve a table</button>
+        </div>
+        <div class="plate" style="height:520px"><image-slot id="dining" shape="rect" placeholder="Drop the dining room"></image-slot></div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isMenus }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*1.6) var(--space-6) calc(var(--space-8)*2)">
+    <div style="text-align:center;padding-bottom:var(--space-8);border-bottom:1px solid var(--color-divider)">
+      <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-accent-700)">Written each morning</p>
+      <h1 style="font-size:clamp(40px,5vw,62px);font-weight:400;margin:0">The Kitchen</h1>
+      <p style="margin:var(--space-4) auto 0;max-width:56ch;font-size:15px;line-height:1.8;color:color-mix(in srgb, var(--color-text) 68%, transparent)">Rosalind Vane cooks what the market sends. Dishes change daily; a discretionary 12.5% service is added for tables of six or more.</p>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:0;margin:var(--space-8) auto;flex-wrap:wrap;border-bottom:1px solid var(--color-divider);max-width:820px">
+      <button onClick="{{ tabLunch }}" style="{{ tabStyleLunch }}">Lunch</button>
+      <button onClick="{{ tabDinner }}" style="{{ tabStyleDinner }}">Dinner</button>
+      <button onClick="{{ tabSunday }}" style="{{ tabStyleSunday }}">Sunday roast</button>
+      <button onClick="{{ tabPudding }}" style="{{ tabStylePudding }}">Puddings</button>
+      <button onClick="{{ tabBar }}" style="{{ tabStyleBar }}">Bar snacks</button>
+    </div>
+
+    <sc-if value="{{ isLunch }}" hint-placeholder-val="{{ false }}">
+    <section style="max-width:980px;margin:0 auto">
+      <p style="text-align:center;font-style:italic;font-size:15px;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin-bottom:var(--space-8)">Served noon until three, Monday to Saturday. Two courses 28, three courses 34.</p>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 calc(var(--space-8)*1.6)">
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300)">To begin</h3>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Chilled pea &amp; mint soup</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">8</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Crème fraîche, olive oil, a little lemon zest.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Dorset crab on toast</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">16</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Brown butter, sourdough, cayenne.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Devilled lamb kidneys</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">11</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">On dripping toast, mustard, watercress.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Heritage tomatoes, Ticklemore</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">10</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Isle of Wight tomatoes, goat's curd, basil oil. <em>v</em></p></div>
+        </div>
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300)">And then</h3>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Marigold fish pie</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">21</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Smoked haddock, hen's egg, potato crust, buttered peas.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Tamworth pork chop</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">26</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Gooseberries, sage, dripping potatoes.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Onion &amp; Berkswell tart</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">18</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Slow onions, ewe's cheese, thyme, leaf salad. <em>v</em></p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Steak &amp; Marigold ale pie</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">24</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Shin braised four hours, suet lid, mash, greens.</p></div>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ isDinner }}" hint-placeholder-val="{{ true }}">
+    <section style="max-width:980px;margin:0 auto">
+      <p style="text-align:center;font-style:italic;font-size:15px;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin-bottom:var(--space-8)">Sittings at 6.30 and 8.30. The card below is tonight's; it will be different tomorrow.</p>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 calc(var(--space-8)*1.6)">
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300)">First</h3>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Oysters, Maldon no. 2</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">4 ea.</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Shallot vinegar, or grilled with seaweed butter for one pound more.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Dorset crab, brown butter toast</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">16</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Hand-picked white meat, lemon, a great deal of butter.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Smoked eel, beetroot, horseradish</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">14</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Severn &amp; Wye eel, roasted golden beets, crème fraîche.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Grilled courgettes, ricotta</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">12</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Charred over coals, mint, toasted hazelnut. <em>v</em></p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Bone marrow, parsley, capers</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">13</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Two halves, sea salt, plenty of toast.</p></div>
+        </div>
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300)">Main</h3>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Turbot on the bone</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">38</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Grilled over coals, brown shrimp butter, sea purslane. For two, 68.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Steak &amp; Marigold ale pie</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">24</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Shin braised four hours in our house bitter, suet lid, mash, greens.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Dexter rib for two</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">74</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Thirty-five days dry-aged, bone marrow gravy, chips in dripping.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Guinea fowl, girolles, cider</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">27</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Leg confit, breast roasted, Somerset cider cream.</p></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:20px;font-weight:400">Broad bean &amp; sorrel risotto</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">19</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;max-width:52ch;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Carnaroli, Old Winchester, lemon. <em>v</em></p></div>
+        </div>
+      </div>
+      <div style="margin-top:calc(var(--space-8)*1.4);padding:var(--space-6);border:1px solid var(--color-divider);border-radius:var(--radius-md);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6)">
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;margin:0 0 var(--space-3)">Sides &mdash; all 6</h3>
+          <p style="margin:0;font-size:14.5px;line-height:2;color:color-mix(in srgb, var(--color-text) 74%, transparent)">Chips in beef dripping &middot; Buttered greens &middot; Jersey Royals, mint &middot; Leaf salad, house dressing &middot; Cauliflower cheese</p>
+        </div>
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;margin:0 0 var(--space-3)">Cheese</h3>
+          <p style="margin:0;font-size:14.5px;line-height:2;color:color-mix(in srgb, var(--color-text) 74%, transparent)">Three British cheeses from Neal's Yard, quince, oat biscuits &mdash; 12. A glass of Sauternes alongside &mdash; 9.</p>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ isSunday }}" hint-placeholder-val="{{ false }}">
+    <section style="max-width:820px;margin:0 auto">
+      <p style="text-align:center;font-style:italic;font-size:15px;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin-bottom:var(--space-8)">One sitting, noon until the beef runs out. Booking strongly advised.</p>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Dexter sirloin, Yorkshire pudding</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">29</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Pink, carved thick. Roast potatoes in dripping, carrots, greens, horseradish, gravy.</p></div>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Middle White pork, crackling</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">26</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Bramley apple sauce, sage and onion, all the trimmings.</p></div>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Chicken for the table</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">52</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Whole Norfolk bird, bread sauce, bacon, trimmings. Serves three.</p></div>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Roast squash &amp; barley</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">22</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Pearl barley, sage butter, hazelnuts, the same trimmings. <em>v</em></p></div>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Extra Yorkshire pudding</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">3</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">You will want one.</p></div>
+      <div style="padding:var(--space-4) 0"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Cauliflower cheese</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">7</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Westcombe cheddar, breadcrumbs, browned at the top.</p></div>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ isPudding }}" hint-placeholder-val="{{ false }}">
+    <section style="max-width:820px;margin:0 auto">
+      <p style="text-align:center;font-style:italic;font-size:15px;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin-bottom:var(--space-8)">Made in the morning, finished to order. Sweet wines by the glass on the drinks list.</p>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Burnt honey custard tart</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">9</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Honey from the library roof, three doors down. Cut thin.</p></div>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Gooseberry &amp; elderflower fool</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">8</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Kentish gooseberries, Jersey cream, shortbread.</p></div>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Treacle sponge, clotted cream</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">9</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Steamed to order; allow twenty minutes.</p></div>
+      <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Chocolate &amp; sea salt pot</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">8</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Seventy per cent Madagascan, Maldon salt, olive oil.</p></div>
+      <div style="padding:var(--space-4) 0"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:21px;font-weight:400">Neal's Yard cheeses</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">12</span></div><p style="margin:6px 0 0;font-size:13.5px;line-height:1.7;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Three, quince, oat biscuits. Ask what is drinking well beside them.</p></div>
+    </section>
+    </sc-if>
+
+    <sc-if value="{{ isBar }}" hint-placeholder-val="{{ false }}">
+    <section style="max-width:820px;margin:0 auto">
+      <p style="text-align:center;font-style:italic;font-size:15px;color:color-mix(in srgb, var(--color-text) 62%, transparent);margin-bottom:var(--space-8)">At the bar, all day, no booking. Eaten standing up, ideally.</p>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 calc(var(--space-8)*1.4)">
+        <div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:19px;font-weight:400">Scotch egg, brown sauce</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">7</span></div></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:19px;font-weight:400">Welsh rarebit</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">9</span></div></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:19px;font-weight:400">Potted shrimps, toast</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">11</span></div></div>
+        </div>
+        <div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:19px;font-weight:400">Pork pie, piccalilli</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">8</span></div></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:19px;font-weight:400">Salted almonds &amp; olives</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">5</span></div></div>
+          <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider)"><div style="display:flex;align-items:baseline;gap:var(--space-3)"><h4 style="margin:0;font-size:19px;font-weight:400">Cheese toastie, pickled onion</h4><span style="flex:1;height:1px;background:var(--color-divider)"></span><span style="font-family:var(--font-heading);font-size:18px;font-feature-settings:'tnum'">8</span></div></div>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <div style="max-width:820px;margin:calc(var(--space-8)*1.6) auto 0;text-align:center;border-top:1px solid var(--color-divider);padding-top:var(--space-6)">
+      <p style="font-size:13px;color:color-mix(in srgb, var(--color-text) 55%, transparent);margin:0 0 var(--space-4)">Allergen information is available for every dish &mdash; please ask. <em>v</em> denotes vegetarian.</p>
+      <button class="btn btn-primary" onClick="{{ goVisit }}" style="letter-spacing:0.1em;text-transform:uppercase;font-size:12px;padding:12px 26px">Book a table</button>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isDrinks }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <section style="background:var(--ink);color:var(--paper)">
+      <div style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*1.8) var(--space-6);text-align:center">
+        <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-accent-300)">Six casks, forty bottles, one negroni</p>
+        <h1 style="font-size:clamp(40px,5vw,62px);font-weight:400;margin:0">The Cellar</h1>
+        <p style="margin:var(--space-4) auto 0;max-width:56ch;font-size:15px;line-height:1.8;color:color-mix(in srgb, var(--paper) 78%, transparent)">Ale kept at twelve degrees and served by gravity where we can. The wine list leans to growers; ask Tom what has just been opened.</p>
+      </div>
+    </section>
+    <div style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*1.8) var(--space-6) calc(var(--space-8)*2);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:calc(var(--space-8)*1.6)">
+      <section>
+        <h2 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300);margin:0">On cask</h2>
+        <table class="table" style="margin-top:var(--space-2)">
+          <thead><tr><th>Beer</th><th>Brewer</th><th style="text-align:right">Pint</th></tr></thead>
+          <tbody style="font-feature-settings:'tnum'">
+            <tr><td>Marigold Bitter, 3.9%</td><td class="text-muted">Brewed for us, Sussex</td><td style="text-align:right">5.80</td></tr>
+            <tr><td>Elder Street Pale, 4.2%</td><td class="text-muted">Five Points, Hackney</td><td style="text-align:right">6.20</td></tr>
+            <tr><td>London Porter, 5.4%</td><td class="text-muted">Fuller's, Chiswick</td><td style="text-align:right">6.40</td></tr>
+            <tr><td>Harvest Mild, 3.4%</td><td class="text-muted">Harvey's, Lewes</td><td style="text-align:right">5.60</td></tr>
+            <tr><td>Seasonal guest</td><td class="text-muted">Chalked on the mirror</td><td style="text-align:right">6.00</td></tr>
+            <tr><td>Farmhouse cider, 5.8%</td><td class="text-muted">Oliver's, Herefordshire</td><td style="text-align:right">6.80</td></tr>
+          </tbody>
+        </table>
+        <h2 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300);margin:calc(var(--space-8)*1.4) 0 0">Cocktails</h2>
+        <table class="table" style="margin-top:var(--space-2)">
+          <tbody style="font-feature-settings:'tnum'">
+            <tr><td>Marigold Negroni <span class="text-muted">&mdash; unchanged since 1998</span></td><td style="text-align:right">13</td></tr>
+            <tr><td>Gimlet, house lime cordial</td><td style="text-align:right">12</td></tr>
+            <tr><td>Elderflower spritz <span class="text-muted">&mdash; low alcohol</span></td><td style="text-align:right">10</td></tr>
+            <tr><td>Whisky sour, Yorkshire rye</td><td style="text-align:right">13</td></tr>
+            <tr><td>Garden martini, cucumber &amp; dill</td><td style="text-align:right">14</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h2 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300);margin:0">Wine by the glass</h2>
+        <table class="table" style="margin-top:var(--space-2)">
+          <thead><tr><th>Wine</th><th style="text-align:right">175ml</th><th style="text-align:right">Bottle</th></tr></thead>
+          <tbody style="font-feature-settings:'tnum'">
+            <tr><td>Muscadet sur lie, Loire 2023</td><td style="text-align:right">8</td><td style="text-align:right">32</td></tr>
+            <tr><td>Godello, Valdeorras 2022</td><td style="text-align:right">10</td><td style="text-align:right">40</td></tr>
+            <tr><td>Chablis, Dom. Séguinot 2022</td><td style="text-align:right">14</td><td style="text-align:right">58</td></tr>
+            <tr><td>Gamay, Beaujolais-Villages 2023</td><td style="text-align:right">9</td><td style="text-align:right">36</td></tr>
+            <tr><td>Rioja Reserva, Lopez 2016</td><td style="text-align:right">13</td><td style="text-align:right">54</td></tr>
+            <tr><td>Claret, Ch. Meyney 2018</td><td style="text-align:right">15</td><td style="text-align:right">62</td></tr>
+            <tr><td>Grower Champagne, Marie Courtin</td><td style="text-align:right">16</td><td style="text-align:right">78</td></tr>
+            <tr><td>Sauternes, Ch. Doisy-Daëne 2017</td><td style="text-align:right">9</td><td style="text-align:right">&mdash;</td></tr>
+          </tbody>
+        </table>
+        <div class="plate" style="height:300px;margin-top:calc(var(--space-8)*1.2)"><image-slot id="cellar" shape="rect" placeholder="Drop a bar or cellar photograph"></image-slot></div>
+      </section>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*1.6) var(--space-6) calc(var(--space-8)*2)">
+    <div style="text-align:center;padding-bottom:var(--space-8);border-bottom:1px solid var(--color-divider)">
+      <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-accent-700)">Nine plates</p>
+      <h1 style="font-size:clamp(40px,5vw,62px);font-weight:400;margin:0">The House in Pictures</h1>
+      <p style="margin:var(--space-4) auto 0;max-width:52ch;font-size:15px;line-height:1.8;color:color-mix(in srgb, var(--color-text) 68%, transparent)">Click any plate to see it large. Drop your own photographs into the frames to fill them.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-6);margin-top:calc(var(--space-8)*1.4)">
+      <figure><button onClick="{{ openG1 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-1" shape="rect" placeholder="Facade in summer"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">The facade in June</figcaption></figure>
+      <figure><button onClick="{{ openG2 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-2" shape="rect" placeholder="The horseshoe bar"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">The horseshoe bar, original 1848</figcaption></figure>
+      <figure><button onClick="{{ openG3 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-3" shape="rect" placeholder="Winter lights"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">December, lights lit at four</figcaption></figure>
+      <figure><button onClick="{{ openG4 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-4" shape="rect" placeholder="The dining room"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">The upstairs room, laid for eight</figcaption></figure>
+      <figure><button onClick="{{ openG5 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-5" shape="rect" placeholder="Turbot over coals"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">Turbot, over coals</figcaption></figure>
+      <figure><button onClick="{{ openG6 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-6" shape="rect" placeholder="Rosalind in the kitchen"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">Rosalind Vane, half past five</figcaption></figure>
+      <figure><button onClick="{{ openG7 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-7" shape="rect" placeholder="Cask ale"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">Bitter, pulled properly</figcaption></figure>
+      <figure><button onClick="{{ openG8 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-8" shape="rect" placeholder="The snug fire"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">The snug, fire from October</figcaption></figure>
+      <figure><button onClick="{{ openG9 }}" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><div class="plate" style="height:300px"><image-slot id="gal-9" shape="rect" placeholder="Replanting day"></image-slot></div></button><figcaption style="margin-top:var(--space-2);font-size:12px">Replanting day, four times a year</figcaption></figure>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isVisit }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*1.6) var(--space-6) calc(var(--space-8)*2)">
+    <div style="text-align:center;padding-bottom:var(--space-8);border-bottom:1px solid var(--color-divider)">
+      <p style="margin:0 0 var(--space-3);font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--color-accent-700)">Elder Street, W8</p>
+      <h1 style="font-size:clamp(40px,5vw,62px);font-weight:400;margin:0">Come and See Us</h1>
+    </div>
+    <div style="display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);gap:calc(var(--space-8)*1.6);margin-top:calc(var(--space-8)*1.4)">
+      <section>
+        <h2 style="font-size:30px;font-weight:400;margin:0 0 var(--space-4)">Reserve the dining room</h2>
+        <p style="font-size:14.5px;line-height:1.8;color:color-mix(in srgb, var(--color-text) 70%, transparent);margin:0 0 var(--space-6)">Tables are held for fifteen minutes. For parties of nine or more, or the whole upstairs room, write to us and we will call you back.</p>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)">
+          <div class="field"><label>Name</label><input class="input" type="text" placeholder="Your name"></div>
+          <div class="field"><label>Telephone</label><input class="input" type="tel" placeholder="07…"></div>
+          <div class="field"><label>Date</label><input class="input" type="date"></div>
+          <div class="field"><label>Guests</label><input class="input" type="number" min="1" max="12" placeholder="2"></div>
+        </div>
+        <div class="field" style="margin-top:var(--space-4)">
+          <label>Sitting</label>
+          <div class="seg" style="margin-top:4px">
+            <label class="seg-opt"><input type="radio" name="sitting"><span>12.00</span></label>
+            <label class="seg-opt"><input type="radio" name="sitting" checked><span>18.30</span></label>
+            <label class="seg-opt"><input type="radio" name="sitting"><span>20.30</span></label>
+          </div>
+        </div>
+        <div class="field" style="margin-top:var(--space-4)"><label>Anything we should know</label><textarea class="input" placeholder="Allergies, a birthday, a dog"></textarea></div>
+        <button class="btn btn-primary btn-block" onClick="{{ book }}" style="letter-spacing:0.1em;text-transform:uppercase;font-size:12px;padding:13px">Request the table</button>
+        <p style="font-size:12px;text-align:center;margin-top:var(--space-3);color:color-mix(in srgb, var(--color-text) 50%, transparent)">A prototype &mdash; nothing is sent.</p>
+      </section>
+      <section style="display:flex;flex-direction:column;gap:var(--space-6)">
+        <div class="plate" style="height:300px"><image-slot id="visit-map" shape="rect" placeholder="Drop a map or street photograph"></image-slot></div>
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300);margin:0">Finding us</h3>
+          <p style="margin:var(--space-4) 0 0;font-size:15px;line-height:1.9">14 Elder Street<br>Kensington, London W8 4QT<br><a href="tel:+442079460014">020 7946 0014</a><br><a href="mailto:table@marigoldarms.co.uk">table@marigoldarms.co.uk</a></p>
+          <p style="margin:var(--space-4) 0 0;font-size:13.5px;line-height:1.8;color:color-mix(in srgb, var(--color-text) 62%, transparent)">Notting Hill Gate or High Street Kensington, seven minutes on foot from either. No car park; the meters are free after six.</p>
+        </div>
+        <div>
+          <h3 style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:var(--color-accent-700);font-weight:400;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-accent-300);margin:0">Hours</h3>
+          <div style="display:grid;gap:var(--space-2);margin-top:var(--space-4);font-size:14px;font-feature-settings:'tnum'">
+            <div style="display:flex;justify-content:space-between;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-divider)"><span class="text-muted">Monday &ndash; Thursday</span><span>Noon &ndash; 11pm</span></div>
+            <div style="display:flex;justify-content:space-between;padding-bottom:var(--space-2);border-bottom:1px solid var(--color-divider)"><span class="text-muted">Friday &ndash; Saturday</span><span>Noon &ndash; midnight</span></div>
+            <div style="display:flex;justify-content:space-between"><span class="text-muted">Sunday</span><span>Noon &ndash; 10.30pm</span></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  </sc-if>
+
+  <footer style="background:var(--ink);color:var(--paper);border-top:1px solid var(--color-accent-800)">
+    <div style="max-width:1180px;margin:0 auto;padding:calc(var(--space-8)*1.5) var(--space-6)">
+      <div style="display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:var(--space-8)">
+        <div>
+          <p style="font-family:var(--font-heading);font-size:26px;margin:0">The Marigold Arms</p>
+          <p style="font-size:10px;letter-spacing:0.26em;text-transform:uppercase;color:var(--color-accent-300);margin:6px 0 var(--space-4);font-feature-settings:'tnum'">Kensington &middot; est. 1848</p>
+          <p style="font-size:13.5px;line-height:1.8;margin:0;color:color-mix(in srgb, var(--paper) 68%, transparent)">A licensed house, a hanging garden, and a small kitchen that takes it seriously.</p>
+        </div>
+        <div>
+          <p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-300);margin:0 0 var(--space-3)">Visit</p>
+          <p style="font-size:13.5px;line-height:1.9;margin:0;color:color-mix(in srgb, var(--paper) 72%, transparent)">14 Elder Street<br>London W8 4QT<br>020 7946 0014</p>
+        </div>
+        <div>
+          <p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-300);margin:0 0 var(--space-3)">The house</p>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+            <button onClick="{{ goMenus }}" style="{{ footLink }}">Menus</button>
+            <button onClick="{{ goDrinks }}" style="{{ footLink }}">Drinks</button>
+            <button onClick="{{ goGallery }}" style="{{ footLink }}">Gallery</button>
+            <button onClick="{{ goVisit }}" style="{{ footLink }}">Book a table</button>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-300);margin:0 0 var(--space-3)">Elsewhere</p>
+          <div style="display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+            <a href="#" style="font-size:13.5px;color:color-mix(in srgb, var(--paper) 72%, transparent);text-decoration:none">Instagram</a>
+            <a href="#" style="font-size:13.5px;color:color-mix(in srgb, var(--paper) 72%, transparent);text-decoration:none">Private hire</a>
+            <a href="#" style="font-size:13.5px;color:color-mix(in srgb, var(--paper) 72%, transparent);text-decoration:none">Work with us</a>
+          </div>
+        </div>
+      </div>
+      <p style="margin:calc(var(--space-8)*1.2) 0 0;padding-top:var(--space-4);border-top:1px solid color-mix(in srgb, var(--paper) 18%, transparent);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:color-mix(in srgb, var(--paper) 45%, transparent);font-feature-settings:'tnum'">&copy; 2026 The Marigold Arms &mdash; a prototype</p>
+    </div>
+  </footer>
+
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:200;background:color-mix(in srgb, var(--ink) 88%, transparent);display:grid;place-items:center;padding:5vh 6vw;cursor:zoom-out">
+    <figure style="max-width:1100px;width:100%">
+      <div class="plate" style="height:min(74vh,760px);border-width:10px;border-color:var(--paper)">
+        <image-slot id="{{ lightboxId }}" shape="rect" placeholder="Drop an image"></image-slot>
+      </div>
+      <figcaption style="color:var(--paper);font-size:13px;margin-top:var(--space-3);display:flex;justify-content:space-between;letter-spacing:0.1em;text-transform:uppercase">
+        <span>{{ lightboxCaption }}</span>
+        <span style="color:var(--color-accent-300)">Click anywhere to close</span>
+      </figcaption>
+    </figure>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;palette&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Green &amp; gilt&quot;,&quot;Bordeaux &amp; gilt&quot;,&quot;Ink blue &amp; brass&quot;,&quot;Brass &amp; cream&quot;],&quot;default&quot;:&quot;Green &amp; gilt&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Palette&quot;}}">
+class Component extends DCLogic {
+  state = { page: 'home', tab: 'dinner', shot: null };
+
+  go(page) {
+    this.setState({ page, shot: null });
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  navStyle(page) {
+    const on = this.state.page === page;
+    return {
+      background: 'none', border: 0, padding: '4px 0', cursor: 'pointer',
+      fontFamily: 'var(--font-body)', fontSize: '14px', letterSpacing: '0.04em',
+      color: on ? 'var(--color-accent-700)' : 'var(--color-text)',
+      borderBottom: on ? '1px solid var(--color-accent)' : '1px solid transparent',
+      transition: 'color 200ms ease, border-color 200ms ease'
+    };
+  }
+
+  tabStyle(tab) {
+    const on = this.state.tab === tab;
+    return {
+      background: 'none', border: 0, borderBottom: on ? '2px solid var(--color-accent)' : '2px solid transparent',
+      marginBottom: '-1px', padding: '10px 22px', cursor: 'pointer',
+      fontFamily: 'var(--font-heading)', fontSize: '17px',
+      color: on ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 62%, transparent)',
+      transition: 'color 200ms ease, border-color 200ms ease'
+    };
+  }
+
+  findReveals() {
+    const out = [];
+    const walk = root => {
+      root.querySelectorAll('*').forEach(el => {
+        if (el.hasAttribute && el.hasAttribute('data-reveal')) out.push(el);
+        if (el.shadowRoot) walk(el.shadowRoot);
+      });
+    };
+    walk(document);
+    return out;
+  }
+
+  reveal() {
+    const nodes = this.findReveals().filter(n => !n.dataset.revealed);
+    if (!nodes.length || !('IntersectionObserver' in window)) return;
+    // hide from JS only — with no JS the sections stay visible
+    nodes.forEach(n => {
+      if (!n.dataset.armed) {
+        n.dataset.armed = '1';
+        n.style.opacity = '0';
+        n.style.transform = 'translateY(18px)';
+      }
+    });
+    if (!this._io) {
+      this._io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.dataset.revealed = '1';
+            e.target.style.opacity = '1';
+            e.target.style.transform = 'none';
+            this._io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+    }
+    nodes.forEach(n => this._io.observe(n));
+  }
+
+  static PALETTES = {
+    'Green & gilt': { bg:'#f2f1ec', surface:'#e8e7e0', text:'#1c211c', accent:'#5d7a5a', a100:'#eef3ec', a300:'#b9cdb2', a400:'#8fab89', a600:'#4c6849', a700:'#3c5139', a800:'#2b3a29', a900:'#1b2a1f', ink:'#1b2a1f', paper:'#f7f6f0' },
+    'Bordeaux & gilt': { bg:'#f5f1ee', surface:'#ebe5e1', text:'#231a19', accent:'#8c3f45', a100:'#f8ecea', a300:'#dfb2b0', a400:'#c08387', a600:'#7a3239', a700:'#6a2a30', a800:'#4a1c21', a900:'#2b1517', ink:'#2b1517', paper:'#faf6f3' },
+    'Ink blue & brass': { bg:'#f1f2f3', surface:'#e6e8ea', text:'#1a1f24', accent:'#3c5a74', a100:'#eaf0f5', a300:'#aac2d5', a400:'#7796af', a600:'#2f4b62', a700:'#274357', a800:'#1a2e3c', a900:'#16222c', ink:'#16222c', paper:'#f6f8f9' },
+    'Brass & cream': { bg:'#f3f2f2', surface:'#eae9e9', text:'#201f1d', accent:'#b68235', a100:'#fff3e4', a300:'#facb8d', a400:'#e1ad66', a600:'#a06f24', a700:'#7d5411', a800:'#5a3b0a', a900:'#3a270d', ink:'#3a270d', paper:'#faf7f2' }
+  };
+
+  applyPalette() {
+    const P = Component.PALETTES;
+    const p = P[this.props.palette] || P['Green & gilt'];
+    const r = document.documentElement.style;
+    r.setProperty('--color-bg', p.bg);
+    r.setProperty('--color-surface', p.surface);
+    r.setProperty('--color-text', p.text);
+    r.setProperty('--color-accent', p.accent);
+    r.setProperty('--color-accent-2', p.accent);
+    r.setProperty('--color-divider', 'color-mix(in srgb, ' + p.text + ' 16%, transparent)');
+    ['100','300','400','600','700','800','900'].forEach(k => {
+      r.setProperty('--color-accent-' + k, p['a' + k]);
+      r.setProperty('--color-accent-2-' + k, p['a' + k]);
+    });
+    r.setProperty('--ink', p.ink);
+    r.setProperty('--paper', p.paper);
+  }
+
+  componentDidMount() {
+    this.applyPalette();
+    this.reveal();
+    this._safety = setTimeout(() => {
+      this.findReveals().forEach(n => {
+        if (!n.dataset.revealed) { n.dataset.revealed = '1'; n.style.opacity = '1'; n.style.transform = 'none'; }
+      });
+    }, 2500);
+  }
+  componentDidUpdate() { this.applyPalette(); this.reveal(); }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); clearTimeout(this._safety); }
+
+  renderVals() {
+    const captions = {
+      'gal-1': 'The facade in June', 'gal-2': 'The horseshoe bar, original 1848',
+      'gal-3': 'December, lights lit at four', 'gal-4': 'The upstairs room, laid for eight',
+      'gal-5': 'Turbot, over coals', 'gal-6': 'Rosalind Vane, half past five',
+      'gal-7': 'Bitter, pulled properly', 'gal-8': 'The snug, fire from October',
+      'gal-9': 'Replanting day, four times a year'
+    };
+    const open = id => () => this.setState({ shot: id });
+    const v = {
+      isHome: this.state.page === 'home',
+      isMenus: this.state.page === 'menus',
+      isDrinks: this.state.page === 'drinks',
+      isGallery: this.state.page === 'gallery',
+      isVisit: this.state.page === 'visit',
+      goHome: () => this.go('home'),
+      goMenus: () => this.go('menus'),
+      goDrinks: () => this.go('drinks'),
+      goGallery: () => this.go('gallery'),
+      goVisit: () => this.go('visit'),
+      navHome: this.navStyle('home'),
+      navMenus: this.navStyle('menus'),
+      navDrinks: this.navStyle('drinks'),
+      navGallery: this.navStyle('gallery'),
+      navVisit: this.navStyle('visit'),
+      isLunch: this.state.tab === 'lunch',
+      isDinner: this.state.tab === 'dinner',
+      isSunday: this.state.tab === 'sunday',
+      isPudding: this.state.tab === 'pudding',
+      isBar: this.state.tab === 'bar',
+      tabLunch: () => this.setState({ tab: 'lunch' }),
+      tabDinner: () => this.setState({ tab: 'dinner' }),
+      tabSunday: () => this.setState({ tab: 'sunday' }),
+      tabPudding: () => this.setState({ tab: 'pudding' }),
+      tabBar: () => this.setState({ tab: 'bar' }),
+      tabStyleLunch: this.tabStyle('lunch'),
+      tabStyleDinner: this.tabStyle('dinner'),
+      tabStyleSunday: this.tabStyle('sunday'),
+      tabStylePudding: this.tabStyle('pudding'),
+      tabStyleBar: this.tabStyle('bar'),
+      lightboxOpen: !!this.state.shot,
+      lightboxId: this.state.shot || 'gal-1',
+      lightboxCaption: captions[this.state.shot] || '',
+      closeLightbox: () => this.setState({ shot: null }),
+      book: () => this.setState({ page: 'visit' }),
+      footLink: {
+        background: 'none', border: 0, padding: 0, cursor: 'pointer', textAlign: 'left',
+        fontFamily: 'var(--font-body)', fontSize: '13.5px',
+        color: 'color-mix(in srgb, var(--paper) 72%, transparent)'
+      }
+    };
+    for (let i = 1; i <= 9; i++) v['openG' + i] = open('gal-' + i);
+    return v;
+  }
+}
+</script>
+</body>
+</html>
