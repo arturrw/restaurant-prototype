@@ -344,9 +344,17 @@ textarea.input { min-height: 92px; resize: vertical; }
    on one line fragment, but a background-image is painted per fragment,
    so this grows under every line at once — */
 .underline-grow-lines {
+  /* `calc(100% + 3px)` on a 1px-tall background always overshoots the
+     element's own box, however tall — the "+3px" adds on top of a Y
+     position already flush with the bottom edge, so those pixels paint
+     outside the border-box and never show. This padding gives the
+     background room to sit 3px under the text and still land inside the
+     box; vertical padding on an inline element doesn't affect line-box
+     spacing, so it doesn't push the surrounding layout apart. */
+  padding-bottom: 3px;
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
-  background-position: left calc(100% + 3px);
+  background-position: left bottom;
   background-size: 0% 1px;
   transition: background-size 460ms cubic-bezier(0.16, 1, 0.3, 1);
 }
