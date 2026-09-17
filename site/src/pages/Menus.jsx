@@ -22,19 +22,19 @@ export default function Menus() {
 
   const active = menus[isService(tab) ? tab : 'dinner'];
 
-  /* The underline is one measured bar rather than a `layoutId` pair. A shared
+  /* The pill is one measured rect rather than a `layoutId` pair. A shared
      layout animation here leaves a projection node alive inside the route
      subtree, which stops the route-level AnimatePresence in App.jsx from ever
      completing its exit — after switching a tab, every later navigation died. */
   const listRef = useRef(null);
-  const [bar, setBar] = useState({ left: 0, width: 0 });
+  const [bar, setBar] = useState({ left: 0, top: 0, width: 0, height: 0 });
 
   useLayoutEffect(() => {
     const measure = () => {
       const list = listRef.current;
       const el = list?.querySelector('[aria-selected="true"]');
       if (!el) return;
-      setBar({ left: el.offsetLeft, width: el.offsetWidth });
+      setBar({ left: el.offsetLeft, top: el.offsetTop, width: el.offsetWidth, height: el.offsetHeight });
     };
     measure();
     window.addEventListener('resize', measure);
@@ -58,10 +58,24 @@ export default function Menus() {
         style={{
           position: 'relative',
           display: 'flex', justifyContent: 'center', flexWrap: 'wrap',
-          margin: 'var(--space-8) auto', borderBottom: '1px solid var(--color-divider)',
+          gap: 2,
+          margin: 'var(--space-8) auto', padding: 5,
+          background: 'var(--color-surface)',
+          border: '1px solid var(--color-divider)',
+          borderRadius: 999,
           maxWidth: 860,
         }}
       >
+        <motion.span
+          aria-hidden
+          animate={{ x: bar.left, y: bar.top, width: bar.width, height: bar.height }}
+          initial={false}
+          transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+          style={{
+            position: 'absolute', left: 0, top: 0,
+            background: 'var(--color-accent-700)', borderRadius: 999,
+          }}
+        />
         {menuTabs.map((t) => {
           const on = t.id === tab;
           return (
@@ -71,10 +85,11 @@ export default function Menus() {
               aria-selected={on}
               onClick={() => select(t.id)}
               style={{
-                position: 'relative', background: 'none', border: 0,
+                position: 'relative', zIndex: 1, background: 'none', border: 0,
+                borderRadius: 999,
                 padding: '10px 22px', cursor: 'pointer',
                 fontFamily: 'var(--font-heading)', fontSize: 17,
-                color: on ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 62%, transparent)',
+                color: on ? 'var(--paper)' : 'color-mix(in srgb, var(--color-text) 62%, transparent)',
                 transition: 'color 240ms ease',
               }}
             >
@@ -82,16 +97,6 @@ export default function Menus() {
             </button>
           );
         })}
-        <motion.span
-          aria-hidden
-          animate={{ x: bar.left, width: bar.width }}
-          initial={false}
-          transition={{ type: 'spring', stiffness: 420, damping: 36 }}
-          style={{
-            position: 'absolute', left: 0, bottom: -1,
-            height: 2, background: 'var(--color-accent)',
-          }}
-        />
       </div>
 
       {/* Enter-only, keyed on the tab. Do NOT wrap this in another
