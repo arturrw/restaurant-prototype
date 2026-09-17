@@ -5,12 +5,18 @@ test('reservation form submits normally when filled like a person', async ({ pag
   await page.getByPlaceholder('e.g. James Whitfield').fill('Alex Rivers');
   await page.getByPlaceholder('e.g. 07700 900123').fill('07700 900123');
   await page.locator('.cal-day:not(:disabled)').first().click();
-  await page.locator('.cal-slot').first().click();
+  await page.locator('.cal-slot-trigger').click();
+  await page.locator('.cal-slot-option').first().click();
   // The guard's time-trap only trips on near-instant submits; a real visitor
   // easily clears it while filling in the fields above.
   await page.waitForTimeout(900);
   await page.getByRole('button', { name: 'Request the table' }).click();
   await expect(page.getByText('Thank you, Alex')).toBeVisible();
+  // The confirmation's What/When/Who/Where card and add-to-calendar links.
+  await expect(page.locator('.confirm-card')).toContainText('Alex Rivers');
+  await expect(page.locator('.confirm-card')).toContainText('14 Elder Street');
+  await expect(page.getByRole('link', { name: 'Google Calendar' })).toHaveAttribute('href', /calendar\.google\.com/);
+  await expect(page.getByRole('link', { name: /ics/i })).toHaveAttribute('href', /^data:text\/calendar/);
 });
 
 test('a filled honeypot is quietly accepted, not surfaced as an error', async ({ page }) => {
@@ -21,12 +27,13 @@ test('a filled honeypot is quietly accepted, not surfaced as an error', async ({
   await page.getByPlaceholder('e.g. James Whitfield').fill('Bot Tester');
   await page.getByPlaceholder('e.g. 07700 900123').fill('07700 900123');
   await page.locator('.cal-day:not(:disabled)').first().click();
-  await page.locator('.cal-slot').first().click();
+  await page.locator('.cal-slot-trigger').click();
+  await page.locator('.cal-slot-option').first().click();
   await page.getByRole('button', { name: 'Request the table' }).click();
   await expect(page.getByText('Thank you, Bot')).toBeVisible();
 });
 
-test('booking calendar picks a date and its own sittings', async ({ page }) => {
+test('booking calendar picks a date with a scrollable dropdown of sittings', async ({ page }) => {
   await page.goto('/visit');
   // Every day rendered this month is either disabled (past) or clickable —
   // grab the first enabled one so the test doesn't hardcode a date.
@@ -34,7 +41,33 @@ test('booking calendar picks a date and its own sittings', async ({ page }) => {
   const label = await day.getAttribute('aria-label');
   await day.click();
   await expect(page.locator('.cal-slots-date')).toHaveText(label);
-  await expect(page.locator('.cal-slot').first()).toBeVisible();
+
+  const trigger = page.locator('.cal-slot-trigger');
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  await trigger.click();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+
+  const options = page.locator('.cal-slot-option');
+  // Far more than the old fixed three sittings — a real dropdown's worth.
+  expect(await options.count()).toBeGreaterThan(6);
+
+  // Read the option's text before clicking it — the click closes the list
+  // and removes it from the DOM, so reading it after would hang waiting
+  // for an element that's gone.
+  const chosen = (await options.nth(2).textContent()).trim();
+  await options.nth(2).click();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  await expect(trigger).toContainText(chosen);
+});
+
+test('sitting dropdown closes on outside click', async ({ page }) => {
+  await page.goto('/visit');
+  await page.locator('.cal-day:not(:disabled)').first().click();
+  const trigger = page.locator('.cal-slot-trigger');
+  await trigger.click();
+  await expect(page.locator('.cal-slot-list')).toBeVisible();
+  await page.locator('h2', { hasText: 'Reserve the dining room' }).click();
+  await expect(page.locator('.cal-slot-list')).toBeHidden();
 });
 
 test('newsletter honeypot field is present but off-screen and untabbable', async ({ page }) => {

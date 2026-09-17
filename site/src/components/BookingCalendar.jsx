@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { sittingsForDate } from '../data/sittings.js';
 
 const WEEKDAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
@@ -29,6 +29,28 @@ export default function BookingCalendar({ value, onSelectDate, sitting, onSelect
   today.setHours(0, 0, 0, 0);
   const selected = value ? new Date(`${value}T12:00:00`) : null;
   const [viewMonth, setViewMonth] = useState(startOfMonth(selected ?? today));
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [value]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onPointerDown = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setOpen(false);
+    };
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   const year = viewMonth.getFullYear();
   const month = viewMonth.getMonth();
@@ -90,31 +112,50 @@ export default function BookingCalendar({ value, onSelectDate, sitting, onSelect
 
       <div className="cal-slots">
         {!value ? (
-          <p className="cal-slots-empty">Choose a date — Sunday and Fri–Sat have their own sittings.</p>
+          <p className="cal-slots-empty">Choose a date — Sunday and Fri–Sat keep different hours.</p>
         ) : (
           <>
             <p className="cal-slots-date">
               {selected.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}
             </p>
-            <div className="cal-slots-list">
-              {sittingOptions.map((s) => (
-                <button
-                  type="button"
-                  key={s}
-                  className="cal-slot"
-                  data-selected={sitting === s}
-                  onClick={() => onSelectSitting(s)}
-                >
-                  {s}
-                </button>
-              ))}
+
+            <div className="cal-slot-dropdown" ref={dropdownRef}>
+              <button
+                type="button"
+                className="cal-slot-trigger"
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                onClick={() => setOpen((o) => !o)}
+              >
+                <span>{sitting || 'Select a time'}</span>
+                <svg width="11" height="7" viewBox="0 0 11 7" aria-hidden="true">
+                  <path d="M1 1l4.5 4.5L10 1" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {open && (
+                <ul className="cal-slot-list" role="listbox" aria-label="Sitting time">
+                  {sittingOptions.map((s) => (
+                    <li key={s} role="option" aria-selected={sitting === s}>
+                      <button
+                        type="button"
+                        className="cal-slot-option"
+                        data-selected={sitting === s}
+                        onClick={() => { onSelectSitting(s); setOpen(false); }}
+                      >
+                        {s}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
+
             <p className="cal-slots-hint">
-              {sittingOptions.length === 1
-                ? 'Sunday is one sitting only — the roast, noon until it runs out.'
-                : sittingOptions.length === 4
-                  ? 'Open later Fri–Sat, so there is a fourth, 21.30 sitting.'
-                  : 'The usual three sittings, Monday to Thursday.'}
+              {selected.getDay() === 0
+                ? 'Sunday is the roast — one long sitting, noon till three.'
+                : selected.getDay() === 5 || selected.getDay() === 6
+                  ? 'Lunch till half two; dinner runs later, Fri–Sat, till ten.'
+                  : 'Lunch till half two; dinner from six till nine.'}
             </p>
           </>
         )}

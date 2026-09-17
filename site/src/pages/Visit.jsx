@@ -9,6 +9,7 @@ import Honeypot from '../components/Honeypot.jsx';
 import SwapText from '../components/SwapText.jsx';
 import { useFormGuard } from '../hooks/useFormGuard.js';
 import { sittingsForDate } from '../data/sittings.js';
+import { buildCalendarLinks } from '../utils/calendarLink.js';
 
 const emptyForm = { name: '', phone: '', date: '', guests: '2', sitting: '18.30', notes: '' };
 
@@ -102,49 +103,96 @@ export default function Visit() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                style={{
-                  padding: 'var(--space-6)',
-                  border: '1px solid var(--color-accent-300)',
-                  borderRadius: 'var(--radius-md)',
-                  background: 'var(--color-accent-100)',
-                }}
               >
-                <motion.svg
-                  width="42" height="42" viewBox="0 0 42 42" fill="none"
-                  style={{ marginBottom: 'var(--space-3)' }}
-                  aria-hidden
-                >
-                  <motion.circle
-                    cx="21" cy="21" r="19" stroke="var(--color-accent)" strokeWidth="1.2"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.7, ease: 'easeInOut' }}
-                  />
-                  <motion.path
-                    d="M13 21.5 18.5 27 29 15.5" stroke="var(--color-accent)" strokeWidth="1.6"
-                    strokeLinecap="round" strokeLinejoin="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.45, delay: 0.5, ease: 'easeOut' }}
-                  />
-                </motion.svg>
-                <h3 style={{ fontSize: 24, fontWeight: 400, margin: '0 0 var(--space-2)' }}>
-                  Thank you, {form.name.split(' ')[0]}
-                </h3>
-                <p style={{ margin: '0 0 var(--space-4)', fontSize: 14.5, lineHeight: 1.8 }}>
-                  A table for {form.guests} on{' '}
-                  {new Date(`${form.date}T12:00:00`).toLocaleDateString('en-GB', {
-                    weekday: 'long', day: 'numeric', month: 'long',
-                  })}{' '}
-                  at {form.sitting}. We will telephone {form.phone} to confirm.
-                </p>
-                <p style={{ margin: '0 0 var(--space-4)', fontSize: 12, color: 'color-mix(in srgb, var(--color-text) 55%, transparent)' }}>
+                <div style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
+                  <motion.svg
+                    width="42" height="42" viewBox="0 0 42 42" fill="none"
+                    style={{ margin: '0 auto var(--space-3)' }}
+                    aria-hidden
+                  >
+                    <motion.circle
+                      cx="21" cy="21" r="19" stroke="var(--color-accent)" strokeWidth="1.2"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 0.7, ease: 'easeInOut' }}
+                    />
+                    <motion.path
+                      d="M13 21.5 18.5 27 29 15.5" stroke="var(--color-accent)" strokeWidth="1.6"
+                      strokeLinecap="round" strokeLinejoin="round"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 0.45, delay: 0.5, ease: 'easeOut' }}
+                    />
+                  </motion.svg>
+                  <h3 style={{ fontSize: 24, fontWeight: 400, margin: '0 0 var(--space-2)' }}>
+                    Thank you, {form.name.split(' ')[0] || 'friend'}
+                  </h3>
+                  <p style={{ margin: 0, fontSize: 14.5, color: 'color-mix(in srgb, var(--color-text) 68%, transparent)' }}>
+                    Your table is booked — we'll ring to confirm.
+                  </p>
+                </div>
+
+                <div className="confirm-card">
+                  <div className="confirm-row">
+                    <span className="confirm-label">What</span>
+                    <span>Dinner for {form.guests || '—'} at The Marigold Arms</span>
+                  </div>
+                  <div className="confirm-row">
+                    <span className="confirm-label">When</span>
+                    <span>
+                      {form.date
+                        ? new Date(`${form.date}T12:00:00`).toLocaleDateString('en-GB', {
+                            weekday: 'long', day: 'numeric', month: 'long',
+                          })
+                        : '—'}
+                      <br />{form.sitting}
+                    </span>
+                  </div>
+                  <div className="confirm-row">
+                    <span className="confirm-label">Who</span>
+                    <span>
+                      {form.name || '—'}
+                      <br /><span className="text-muted">{form.phone}</span>
+                    </span>
+                  </div>
+                  <div className="confirm-row">
+                    <span className="confirm-label">Where</span>
+                    <span>14 Elder Street, Kensington, London W8 4QT</span>
+                  </div>
+                </div>
+
+                {form.date && form.sitting && (() => {
+                  const { googleUrl, icsHref } = buildCalendarLinks(form);
+                  return (
+                    <div className="confirm-actions">
+                      <p className="confirm-actions-label">Add to calendar</p>
+                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        <a
+                          href={googleUrl} target="_blank" rel="noreferrer"
+                          className="btn btn-secondary"
+                          style={{ fontSize: 12.5, letterSpacing: '0.02em' }}
+                        >
+                          Google Calendar
+                        </a>
+                        <a
+                          href={icsHref} download="marigold-arms-booking.ics"
+                          className="btn btn-secondary"
+                          style={{ fontSize: 12.5, letterSpacing: '0.02em' }}
+                        >
+                          Apple / Outlook (.ics)
+                        </a>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                <p style={{ margin: 'var(--space-4) 0 0', fontSize: 12, textAlign: 'center', color: 'color-mix(in srgb, var(--color-text) 55%, transparent)' }}>
                   This is a prototype — nothing was sent.
                 </p>
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-secondary btn-block"
                   onClick={() => { setForm(emptyForm); setHoneypot(''); setStatus('idle'); }}
-                  style={{ letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: 12 }}
+                  style={{ marginTop: 'var(--space-3)', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: 12 }}
                 >
                   Book another
                 </button>

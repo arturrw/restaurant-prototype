@@ -245,21 +245,60 @@ textarea.input { min-height: 92px; resize: vertical; }
   margin: auto 0; font-size: 13.5px; line-height: 1.7;
   color: color-mix(in srgb, var(--color-text) 55%, transparent);
 }
-.cal-slots-list { display: grid; gap: 8px; }
-.cal-slot {
-  text-align: left; padding: 9px 14px; font-size: 14px; font-family: var(--font-body);
+.cal-slot-dropdown { position: relative; }
+.cal-slot-trigger {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 14px; font-size: 14px; font-family: var(--font-body);
   background: none; border: 1px solid var(--color-divider); border-radius: var(--radius-md);
   cursor: pointer; color: var(--color-text);
-  transition: border-color 180ms ease, color 180ms ease, background-color 180ms ease;
+  transition: border-color 180ms ease;
 }
-.cal-slot:hover { border-color: var(--color-accent); }
-.cal-slot[data-selected='true'] {
+.cal-slot-trigger:hover, .cal-slot-trigger[aria-expanded='true'] { border-color: var(--color-accent); }
+.cal-slot-trigger svg { color: color-mix(in srgb, var(--color-text) 55%, transparent); transition: transform 220ms ease; flex: none; }
+.cal-slot-trigger[aria-expanded='true'] svg { transform: rotate(180deg); }
+
+.cal-slot-list {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 5;
+  max-height: 224px; overflow-y: auto; margin: 0; padding: 6px; list-style: none;
+  display: grid; gap: 3px;
+  background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+.cal-slot-option {
+  width: 100%; text-align: left; padding: 8px 12px; font-size: 14px; font-family: var(--font-body);
+  background: none; border: 1px solid transparent; border-radius: var(--radius-sm);
+  cursor: pointer; color: var(--color-text);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+.cal-slot-option:hover { background: color-mix(in srgb, var(--color-accent) 8%, transparent); }
+.cal-slot-option[data-selected='true'] {
   border-color: var(--color-accent-700); color: var(--color-accent-700);
   background: var(--color-accent-100);
 }
 .cal-slots-hint {
   margin: var(--space-3) 0 0; font-size: 12px; line-height: 1.6;
   color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+
+/* — booking confirmation card, cal.com-style What/When/Who/Where — */
+.confirm-card {
+  display: grid; gap: var(--space-3);
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
+}
+.confirm-row {
+  display: grid; grid-template-columns: 84px 1fr; gap: var(--space-3);
+  font-size: 14px; line-height: 1.6;
+}
+.confirm-row:not(:last-child) { padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-divider); }
+.confirm-label {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding-top: 2px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.confirm-actions { margin-top: var(--space-4); }
+.confirm-actions-label {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent); margin: 0 0 var(--space-2);
 }
 
 /* — tables — */
