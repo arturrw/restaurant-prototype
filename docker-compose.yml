@@ -24,6 +24,17 @@ services:
       - site-dist:/dist_out
     command: sh -c "rm -rf /dist_out/* && cp -r /app/dist/. /dist_out/"
 
+  site-dev:
+    build:
+      context: ./site
+      target: dev
+    volumes:
+      - ./site:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    profiles: ["dev"]
+
   nginx:
     image: nginx:1.27-alpine
     ports:

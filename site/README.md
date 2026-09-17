@@ -71,3 +71,13 @@ an API) rather than being baked into the app image.
 
 CI (`.github/workflows/ci.yml`) builds the app, brings up this same compose
 stack, and runs the Playwright e2e suite against it on every push/PR.
+
+For live-reloading dev work in Docker instead (mirrors `npm run dev`):
+
+```bash
+docker compose --profile dev up --build site-dev   # http://localhost:5173
+```
+
+This bind-mounts `./site` into the container, so edits on the host trigger
+Vite's HMR. It's on the `dev` profile so a plain `docker compose up` (the
+build → nginx pipeline above) doesn't start it.
