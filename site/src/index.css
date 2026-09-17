@@ -356,6 +356,14 @@ textarea.input { min-height: 92px; resize: vertical; }
 }
 
 /* — footer social icons — */
+/* Base colour/background live here, not as inline styles, so the :hover
+   rule below can actually win — an inline style attribute beats any
+   stylesheet selector regardless of specificity, so a base inline
+   `color`/`background` would have silently no-opped this. */
+.social-icon {
+  color: color-mix(in srgb, var(--paper) 62%, transparent);
+  background: transparent;
+}
 .social-icon:hover, .social-icon:focus-visible {
   color: var(--color-accent-300);
   background: color-mix(in srgb, var(--color-accent-300) 16%, transparent);

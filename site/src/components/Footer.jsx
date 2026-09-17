@@ -208,10 +208,11 @@ export default function Footer() {
   );
 }
 
+// Base color/background live in the .social-icon CSS class, not here — an
+// inline color/background would beat the :hover rule outright, regardless
+// of the CSS selector's specificity.
 const socialIconStyle = {
   display: 'flex', padding: 7, margin: -7, borderRadius: '50%',
-  color: 'color-mix(in srgb, var(--paper) 62%, transparent)',
-  background: 'transparent',
   transition: 'color 240ms ease, background-color 240ms ease',
 };
 
