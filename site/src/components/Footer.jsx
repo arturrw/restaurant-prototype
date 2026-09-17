@@ -68,7 +68,11 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline-grow-lines"
-                style={{ ...linkStyle, color: 'inherit' }}
+                // Not spreading linkStyle's own `transition: color 240ms` here —
+                // an inline transition would beat .underline-grow-lines's own
+                // `transition: background-size 460ms`, same as any other inline
+                // property, making the growth jump instantly instead of easing in.
+                style={{ fontSize: linkStyle.fontSize, textDecoration: linkStyle.textDecoration, color: 'inherit' }}
               >
                 14 Elder Street<br />London W8 4QT
               </a>
