@@ -18,7 +18,7 @@ export const img = {
   sigTart: U('photo-1567624725806-227866a3f784'),
 
   dining: U('photo-1646601110870-09b30c00bd92', 1200),
-  cellar: U('photo-1615780324244-29b71ae12f7d', 1200),
+  cellar: U('photo-1767510533188-719c5f9ab4dd', 1200),
   visitMap: U('photo-1627245084666-199325217d5b', 1200),
 };
 
