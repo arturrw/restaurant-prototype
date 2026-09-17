@@ -260,14 +260,6 @@ export default function Visit() {
                 >
                   {status === 'sending' ? 'Sending…' : 'Request the table'}
                 </button>
-                <p
-                  style={{
-                    fontSize: 12, textAlign: 'center', marginTop: 'var(--space-3)',
-                    color: 'color-mix(in srgb, var(--color-text) 50%, transparent)',
-                  }}
-                >
-                  A prototype — nothing is sent.
-                </p>
               </motion.form>
             )}
         </Reveal>
