@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// A person who has either booked a table or subscribed to the newsletter.
+// Reservations and newsletter signups are matched onto a Client by phone/email
+// so the future admin dashboard can show one history per person.
+model Client {
+  id        String   @id @default(cuid())
+  name      String?
+  phone     String?  @unique
+  email     String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reservations     Reservation[]
+  newsletterSignup NewsletterSignup?
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+// One submission of the Visit page booking form.
+model Reservation {
+  id        String            @id @default(cuid())
+  client    Client?           @relation(fields: [clientId], references: [id])
+  clientId  String?
+  name      String
+  phone     String
+  date      DateTime          @db.Date
+  sitting   String
+  guests    Int
+  notes     String?
+  status    ReservationStatus @default(PENDING)
+  createdAt DateTime          @default(now())
+}
+
+// One submission of the footer newsletter signup form.
+model NewsletterSignup {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  client    Client?  @relation(fields: [clientId], references: [id])
+  clientId  String?  @unique
+  createdAt DateTime @default(now())
+}
