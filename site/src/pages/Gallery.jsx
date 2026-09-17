@@ -9,7 +9,7 @@ import { gallery } from '../data/images.js';
 export default function Gallery() {
   const [open, setOpen] = useState(null);
 
-  const navigate = (next) => setOpen(((next % gallery.length) + gallery.length) % gallery.length);
+  const navigate = (next) => setOpen(Math.max(0, Math.min(gallery.length - 1, next)));
 
   return (
     <main className="wrap" style={{ paddingBlock: 'calc(var(--space-8)*1.6) calc(var(--space-8)*2)' }}>

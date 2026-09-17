@@ -47,7 +47,7 @@ export default function Menus() {
      heading) it started in. */
   const photographed = active.columns.flatMap((col) => col.items.filter((item) => item.image));
   const [openDish, setOpenDish] = useState(null);
-  const navigateDish = (next) => setOpenDish(((next % photographed.length) + photographed.length) % photographed.length);
+  const navigateDish = (next) => setOpenDish(Math.max(0, Math.min(photographed.length - 1, next)));
 
   /* The underline is one measured bar rather than a `layoutId` pair. A shared
      layout animation here leaves a projection node alive inside the route

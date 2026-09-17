@@ -80,8 +80,20 @@ export default function DishLightbox({ dishes, index, onClose, onNavigate }) {
               </div>
             </motion.div>
 
-            <button onClick={() => onNavigate(index - 1)} aria-label="Previous dish" className="overlay-btn" style={{ ...overlayBtn, left: -19, top: 'min(25vh, 230px)' }}>←</button>
-            <button onClick={() => onNavigate(index + 1)} aria-label="Next dish" className="overlay-btn" style={{ ...overlayBtn, right: -19, top: 'min(25vh, 230px)' }}>→</button>
+            <button
+              onClick={() => onNavigate(index - 1)}
+              aria-label="Previous dish"
+              disabled={index === 0}
+              className="overlay-btn"
+              style={{ ...overlayBtn, ...(index === 0 ? disabledOverlayBtn : null), left: -19, top: 'min(25vh, 230px)' }}
+            >←</button>
+            <button
+              onClick={() => onNavigate(index + 1)}
+              aria-label="Next dish"
+              disabled={index === dishes.length - 1}
+              className="overlay-btn"
+              style={{ ...overlayBtn, ...(index === dishes.length - 1 ? disabledOverlayBtn : null), right: -19, top: 'min(25vh, 230px)' }}
+            >→</button>
           </div>
         </motion.div>
       )}
@@ -97,3 +109,6 @@ const overlayBtn = {
   borderRadius: '50%', cursor: 'pointer', fontSize: 15,
   backdropFilter: 'blur(2px)',
 };
+
+// At the first/last dish: visibly inert instead of quietly doing nothing.
+const disabledOverlayBtn = { opacity: 0.35, cursor: 'default' };

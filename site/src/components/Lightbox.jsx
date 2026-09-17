@@ -73,8 +73,20 @@ export default function Lightbox({ shots, index, onClose, onNavigate }) {
               </figcaption>
             </motion.figure>
 
-            <button onClick={() => onNavigate(index - 1)} aria-label="Previous" className="overlay-btn" style={{ ...overlayBtn, left: -19, top: 'min(37vh, 380px)' }}>←</button>
-            <button onClick={() => onNavigate(index + 1)} aria-label="Next" className="overlay-btn" style={{ ...overlayBtn, right: -19, top: 'min(37vh, 380px)' }}>→</button>
+            <button
+              onClick={() => onNavigate(index - 1)}
+              aria-label="Previous"
+              disabled={index === 0}
+              className="overlay-btn"
+              style={{ ...overlayBtn, ...(index === 0 ? disabledOverlayBtn : null), left: -19, top: 'min(37vh, 380px)' }}
+            >←</button>
+            <button
+              onClick={() => onNavigate(index + 1)}
+              aria-label="Next"
+              disabled={index === shots.length - 1}
+              className="overlay-btn"
+              style={{ ...overlayBtn, ...(index === shots.length - 1 ? disabledOverlayBtn : null), right: -19, top: 'min(37vh, 380px)' }}
+            >→</button>
           </div>
         </motion.div>
       )}
@@ -90,3 +102,6 @@ const overlayBtn = {
   borderRadius: '50%', cursor: 'pointer', fontSize: 15,
   backdropFilter: 'blur(2px)',
 };
+
+// At the first/last shot: visibly inert instead of quietly doing nothing.
+const disabledOverlayBtn = { opacity: 0.35, cursor: 'default' };
