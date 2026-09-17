@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import AmbientGlow from './components/AmbientGlow.jsx';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
@@ -42,30 +43,36 @@ export default function App() {
   const location = useLocation();
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg)' }}>
-      <ScrollToTop />
-      <Header />
-      <div style={{ flex: 1 }}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            variants={page}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/menus" element={<Menus />} />
-              <Route path="/drinks" element={<Drinks />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/visit" element={<Visit />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </motion.div>
-        </AnimatePresence>
+    <div style={{ minHeight: '100vh', position: 'relative', background: 'var(--color-bg)' }}>
+      <AmbientGlow />
+      {/* Everything real sits in its own stacking context above the glow —
+          otherwise a merely `position: fixed` glow paints over any ordinary
+          (non-positioned) page content instead of behind it. */}
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <ScrollToTop />
+        <Header />
+        <div style={{ flex: 1 }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              variants={page}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/menus" element={<Menus />} />
+                <Route path="/drinks" element={<Drinks />} />
+                <Route path="/gallery" element={<Gallery />} />
+                <Route path="/visit" element={<Visit />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 }

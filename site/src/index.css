@@ -394,6 +394,53 @@ textarea.input { min-height: 92px; resize: vertical; }
     border-color 380ms ease, backdrop-filter 380ms ease;
 }
 
+/* — ambient background glow — a few soft accent-coloured blobs drifting
+   behind the page. Kept faint: this is a parchment-and-serif dining room,
+   not a product launch. */
+.ambient-glow {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ambient-glow__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.07;
+  will-change: transform;
+}
+.ambient-glow__blob--a {
+  top: -14%; left: -10%;
+  width: 44vw; height: 44vw;
+  background: var(--color-accent);
+  animation: ambient-drift-a 28s ease-in-out infinite;
+}
+.ambient-glow__blob--b {
+  top: 48%; right: -12%;
+  width: 36vw; height: 36vw;
+  background: var(--color-accent-400);
+  animation: ambient-drift-b 34s ease-in-out infinite;
+}
+.ambient-glow__blob--c {
+  bottom: -16%; left: 28%;
+  width: 32vw; height: 32vw;
+  background: var(--color-accent-700);
+  animation: ambient-drift-c 24s ease-in-out infinite;
+}
+@keyframes ambient-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(2.5vw, 2vh) scale(1.08); }
+}
+@keyframes ambient-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-2vw, -2.5vh) scale(1.06); }
+}
+@keyframes ambient-drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(1.5vw, -2vh) scale(1.1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
