@@ -87,7 +87,7 @@ export default function Home() {
           >
             <Link
               to="/menus"
-              className="btn btn-primary"
+              className="btn btn-primary hero-cta"
               style={{
                 color: 'var(--ink)', background: 'var(--color-accent-300)',
                 borderColor: 'var(--color-accent-300)',
@@ -98,7 +98,7 @@ export default function Home() {
             </Link>
             <Link
               to="/visit"
-              className="btn btn-secondary"
+              className="btn btn-secondary hero-cta"
               style={{
                 color: 'var(--paper)', borderColor: 'color-mix(in srgb, var(--paper) 62%, transparent)',
                 background: 'color-mix(in srgb, var(--ink) 30%, transparent)',

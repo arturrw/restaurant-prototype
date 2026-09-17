@@ -141,6 +141,18 @@ img { display: block; max-width: 100%; }
 .btn .arrow { display: inline-block; transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1); }
 .btn:hover .arrow { transform: translateX(5px); }
 
+/* — the hero's "See the menus" / "Reserve" buttons lift on hover, with a
+   soft glow on the primary one — :not(:active) keeps the existing press-down
+   feedback from being masked by the lift while clicking — */
+.hero-cta { transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 320ms ease; }
+.hero-cta:hover:not(:active), .hero-cta:focus-visible { transform: translateY(-3px); }
+.hero-cta.btn-primary:hover:not(:active), .hero-cta.btn-primary:focus-visible {
+  box-shadow: 0 12px 28px -10px color-mix(in srgb, var(--color-accent-300) 65%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-cta { transition: none; }
+}
+
 /* — forms — */
 .field > label {
   display: block; font-size: 12px; margin-bottom: 5px;
