@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 
 test('reservation form submits normally when filled like a person', async ({ page }) => {
   await page.goto('/visit');
-  await page.getByPlaceholder('e.g. James Whitfield').fill('Alex Rivers');
-  await page.getByPlaceholder('e.g. 07700 900123').fill('07700 900123');
+  await page.getByPlaceholder('James Whitfield').fill('Alex Rivers');
+  await page.getByPlaceholder('07700 900123').fill('07700 900123');
   await page.locator('.cal-day:not(:disabled)').first().click();
   await page.locator('.cal-slot-trigger').click();
   await page.locator('.cal-slot-option').first().click();
@@ -24,8 +24,8 @@ test('a filled honeypot is quietly accepted, not surfaced as an error', async ({
   // A script that fills every input it finds would hit this one too — it's
   // invisible and unreachable by tab order for a real visitor.
   await page.locator('#company').fill('Acme Inc');
-  await page.getByPlaceholder('e.g. James Whitfield').fill('Bot Tester');
-  await page.getByPlaceholder('e.g. 07700 900123').fill('07700 900123');
+  await page.getByPlaceholder('James Whitfield').fill('Bot Tester');
+  await page.getByPlaceholder('07700 900123').fill('07700 900123');
   await page.locator('.cal-day:not(:disabled)').first().click();
   await page.locator('.cal-slot-trigger').click();
   await page.locator('.cal-slot-option').first().click();
@@ -84,14 +84,14 @@ test('newsletter honeypot field is present but off-screen and untabbable', async
 
 test('name field strips digits and symbols, keeps letters and spaces', async ({ page }) => {
   await page.goto('/visit');
-  const name = page.getByPlaceholder('e.g. James Whitfield');
+  const name = page.getByPlaceholder('James Whitfield');
   await name.pressSequentially('J0hn123 D0e!!');
   await expect(name).toHaveValue('Jhn De');
 });
 
 test('telephone field strips everything but digits', async ({ page }) => {
   await page.goto('/visit');
-  const phone = page.getByPlaceholder('e.g. 07700 900123');
+  const phone = page.getByPlaceholder('07700 900123');
   await phone.pressSequentially('abc 07700-900123 xyz');
   await expect(phone).toHaveValue('07700900123');
 });

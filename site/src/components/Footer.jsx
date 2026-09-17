@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Honeypot from './Honeypot.jsx';
 import LogoMark from './LogoMark.jsx';
 import { useFormGuard } from '../hooks/useFormGuard.js';
+import { useGoHome } from '../hooks/useGoHome.js';
 
 const linkStyle = {
   fontSize: 13.5,
@@ -16,6 +17,7 @@ export default function Footer() {
   const [honeypot, setHoneypot] = useState('');
   const [status, setStatus] = useState('idle');
   const { isBot } = useFormGuard();
+  const goHome = useGoHome();
 
   const subscribe = (e) => {
     e.preventDefault();
@@ -111,7 +113,7 @@ export default function Footer() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="e.g. you@example.com"
+                placeholder="you@example.com"
                 aria-label="Email address"
                 style={{
                   flex: '1 1 220px', minHeight: 38, padding: '7px 12px',
@@ -143,12 +145,26 @@ export default function Footer() {
           }}
         >
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {/* A plain button, not a <Link to="/"> — an anchor that's clicked
+                far down the page (like this one) keeps browsers busy
+                scrolling itself back into view after the click, fighting the
+                jump-to-top in useGoHome. Header's logo hit the same thing and
+                is a button for the same reason. */}
+            <button
+              type="button"
+              onClick={goHome}
+              className="logo-link"
+              aria-label="The Marigold Arms — home"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                background: 'none', border: 0, padding: 0, cursor: 'pointer', textAlign: 'left',
+              }}
+            >
               <LogoMark size={26} style={{ color: 'var(--color-accent-300)' }} />
               <span style={{ fontFamily: 'var(--font-heading)', fontSize: 28, color: 'var(--paper)' }}>
                 The Marigold Arms
               </span>
-            </div>
+            </button>
             <p
               style={{
                 margin: '8px 0 0', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase',

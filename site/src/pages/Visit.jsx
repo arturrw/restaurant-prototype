@@ -212,13 +212,13 @@ export default function Visit() {
                 <div className="form-grid">
                   <Field label="Name" error={errors.name}>
                     <input
-                      className="input" type="text" placeholder="e.g. James Whitfield" value={form.name}
+                      className="input" type="text" placeholder="James Whitfield" value={form.name}
                       onChange={setName} aria-invalid={!!errors.name} autoComplete="name"
                     />
                   </Field>
                   <Field label="Telephone" error={errors.phone}>
                     <input
-                      className="input" type="tel" inputMode="numeric" placeholder="e.g. 07700 900123"
+                      className="input" type="tel" inputMode="numeric" placeholder="07700 900123"
                       value={form.phone} onChange={setPhone} aria-invalid={!!errors.phone}
                       autoComplete="tel" maxLength={15}
                     />

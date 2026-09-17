@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import LogoMark from './LogoMark.jsx';
 import PaletteSwitcher from './PaletteSwitcher.jsx';
 import SwapText from './SwapText.jsx';
+import { useGoHome } from '../hooks/useGoHome.js';
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -16,22 +17,7 @@ const links = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const goHome = () => {
-    // `navigate('/')` from "/" is a no-op — the pathname doesn't change, so
-    // App.jsx's ScrollToTop (keyed on pathname/hash) never re-runs.
-    if (location.pathname === '/') {
-      // `behavior: 'smooth'` here overlaps with the header's own 380ms
-      // scrolled-state padding transition and settles a few px short of 0
-      // (scroll anchoring compensating for the header's own resize mid-scroll).
-      // Matching ScrollToTop's instant jump for cross-page navigation avoids it.
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    } else {
-      navigate('/');
-    }
-  };
+  const goHome = useGoHome();
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, restDelta: 0.001 });
@@ -79,6 +65,7 @@ export default function Header() {
         <button
           onClick={goHome}
           aria-label="The Marigold Arms — home"
+          className="logo-link"
           style={{
             display: 'flex', alignItems: 'center', gap: 10,
             background: 'none', border: 0, padding: 0, cursor: 'pointer',
@@ -91,7 +78,7 @@ export default function Header() {
               height: scrolled ? 22 : 28,
               color: 'var(--color-accent-700)',
               flexShrink: 0,
-              transition: 'width 380ms ease, height 380ms ease',
+              transition: 'width 380ms ease, height 380ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           />
           <span style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
