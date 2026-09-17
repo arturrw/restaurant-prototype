@@ -46,6 +46,24 @@ export default function Menus() {
     return () => window.removeEventListener('resize', measure);
   }, [tab]);
 
+  /* Switching tabs remounts the section below (see the note by it), which
+     used to snap the page to the new content's height in one frame — old
+     dish list gone, new one full-height, instantly. Animating this wrapper's
+     height between the two smooths that jump into the same motion as the
+     fade, instead of a fade happening inside an abrupt layout jump. */
+  const contentRef = useRef(null);
+  const [contentHeight, setContentHeight] = useState('auto');
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      if (contentRef.current) setContentHeight(contentRef.current.offsetHeight);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    document.fonts?.ready.then(measure).catch(() => {});
+    return () => window.removeEventListener('resize', measure);
+  }, [tab]);
+
   return (
     <main className="wrap" style={{ paddingBlock: 'calc(var(--space-8)*1.6) calc(var(--space-8)*2)' }}>
       <PageIntro
@@ -127,11 +145,18 @@ export default function Menus() {
         </motion.div>
       </div>
 
+      <motion.div
+        animate={{ height: contentHeight }}
+        initial={false}
+        transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+        style={{ overflow: 'hidden' }}
+      >
       {/* Enter-only, keyed on the tab. Do NOT wrap this in another
           `AnimatePresence mode="wait"` — nesting one inside the route-level
           one in App.jsx deadlocks the route exit, and the page never swaps. */}
       <motion.section
         key={tab}
+        ref={contentRef}
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
@@ -222,6 +247,7 @@ export default function Menus() {
             </div>
           )}
       </motion.section>
+      </motion.div>
 
       <Reveal
         style={{
