@@ -55,3 +55,19 @@ Remote Unsplash URLs, mapped per slot in `src/data/images.js`. Swap the ids ther
 
 Client-side routing, so a static host needs all unknown paths rewritten to
 `index.html` (Netlify `_redirects`, Vercel rewrites, `try_files` on nginx).
+
+### Docker
+
+From the repo root:
+
+```bash
+docker compose up --build
+```
+
+`site` builds the app and copies `dist/` into a shared volume, then `nginx`
+(config at `../nginx/nginx.conf`) serves it on http://localhost:8080. The
+`nginx` service is separate so it can later front additional services (e.g.
+an API) rather than being baked into the app image.
+
+CI (`.github/workflows/ci.yml`) builds the app, brings up this same compose
+stack, and runs the Playwright e2e suite against it on every push/PR.
