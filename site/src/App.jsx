@@ -11,24 +11,19 @@ import Drinks from './pages/Drinks.jsx';
 import Gallery from './pages/Gallery.jsx';
 import Visit from './pages/Visit.jsx';
 import NotFound from './pages/NotFound.jsx';
+import { holdScrollTop } from './utils/scrollToTop.js';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
     if (!hash) {
-      // `scrollTo({ behavior: 'auto' })` isn't actually instant here — with
-      // `html { scroll-behavior: smooth }` in index.css, 'auto' just defers
-      // to that CSS and animates instead. Arriving from a page scrolled far
-      // down, that animation runs while the outgoing page is still exiting
-      // and the new one mounting (AnimatePresence), and the shifting layout
-      // under it means it doesn't reliably land on 0. Override the CSS value
-      // for this one jump, then restore it so every other (intentionally
-      // smooth) scroll on the site is unaffected. Same fix as useGoTo.js.
-      const root = document.documentElement;
-      const prevBehavior = root.style.scrollBehavior;
-      root.style.scrollBehavior = 'auto';
-      window.scrollTo(0, 0);
-      root.style.scrollBehavior = prevBehavior;
+      // A single jump here used to land somewhere other than 0 arriving
+      // from a page scrolled far down: the outgoing page (still mounted,
+      // AnimatePresence exiting it) is what pathname change first fires
+      // against, but the actual document-height drop happens later, once
+      // it unmounts — and the browser's own scroll compensation for that
+      // shift runs well after our early one-shot reset, overriding it.
+      holdScrollTop();
       return;
     }
     // The target page may still be mid page-transition (or, arriving from
