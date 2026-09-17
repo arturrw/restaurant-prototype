@@ -113,7 +113,12 @@ export default function Header() {
 
         <nav className="nav-desktop" style={{ marginLeft: 'auto', alignItems: 'center', gap: 'var(--space-6)' }}>
           {links.map((l) => (
-            <NavLink key={l.to} to={l.to} end={l.end}>
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end={l.end}
+              onClick={l.to === '/' ? (e) => { e.preventDefault(); goHome(); } : undefined}
+            >
               {({ isActive }) => (
                 <span
                   className="underline-grow"
@@ -209,7 +214,10 @@ export default function Header() {
                   <NavLink
                     to={l.to}
                     end={l.end}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={(e) => {
+                      setMenuOpen(false);
+                      if (l.to === '/') { e.preventDefault(); goHome(); }
+                    }}
                     style={({ isActive }) => ({
                       fontFamily: 'var(--font-heading)',
                       fontSize: 24,
