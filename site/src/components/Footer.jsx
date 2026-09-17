@@ -81,7 +81,7 @@ export default function Footer() {
               <Link to="/visit#private-hire" style={linkStyle}>Private hire</Link>
               <Link to="/visit#careers" style={linkStyle}>Work with us</Link>
               <a href="mailto:table@marigoldarms.co.uk" style={linkStyle}>
-                <span className="email-hover email-hover--dark">table@marigoldarms.co.uk</span>
+                <span className="email-hover">table@marigoldarms.co.uk</span>
               </a>
             </div>
           </div>
