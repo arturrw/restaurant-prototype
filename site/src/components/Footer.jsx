@@ -94,6 +94,51 @@ export default function Footer() {
             borderTop: '1px solid color-mix(in srgb, var(--paper) 18%, transparent)',
           }}
         >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 'var(--space-5)' }}>
+            <span
+              aria-hidden
+              style={{
+                width: 34, height: 34, flexShrink: 0, borderRadius: '50%',
+                background: 'var(--color-accent-300)', color: 'var(--ink)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="8" cy="8" r="2.3" />
+                {[0, 60, 120, 180, 240, 300].map((deg) => (
+                  <ellipse key={deg} cx="8" cy="3.4" rx="1.5" ry="2.5" transform={`rotate(${deg} 8 8)`} />
+                ))}
+              </svg>
+            </span>
+            <div>
+              <p style={{ margin: 0, fontFamily: 'var(--font-heading)', fontSize: 18, color: 'var(--paper)' }}>
+                The Marigold Arms
+              </p>
+              <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'color-mix(in srgb, var(--paper) 60%, transparent)' }}>
+                A Kensington public house, pulling pints since 1848.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: 14, marginBottom: 'var(--space-6)' }}>
+            <a href="https://instagram.com/marigoldarms" aria-label="Instagram" className="social-icon" style={socialIconStyle}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <rect x="3" y="3" width="18" height="18" rx="5.5" />
+                <circle cx="12" cy="12" r="4.2" />
+                <circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
+            <a href="https://facebook.com/marigoldarms" aria-label="Facebook" className="social-icon" style={socialIconStyle}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9.2" stroke="currentColor" strokeWidth="1.6" />
+                <path
+                  d="M13.4 20.3v-6.9h2.15l.35-2.55h-2.5V9.4c0-.72.22-1.22 1.24-1.22h1.3V5.9c-.23-.03-1-.1-1.9-.1-1.88 0-3.16 1.15-3.16 3.26v1.79h-2.13v2.55h2.13v6.9h2.52Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </a>
+          </div>
+
           <p style={kicker}>Events, once a month</p>
           <p style={{ fontSize: 13.5, lineHeight: 1.8, margin: '0 0 var(--space-4)', maxWidth: '46ch', color: 'color-mix(in srgb, var(--paper) 72%, transparent)' }}>
             Wine dinners, quiz nights, and the odd invitation to help finish a cask before it turns. No spam, easy to leave.
@@ -147,6 +192,12 @@ export default function Footer() {
     </footer>
   );
 }
+
+const socialIconStyle = {
+  display: 'flex',
+  color: 'color-mix(in srgb, var(--paper) 62%, transparent)',
+  transition: 'color 240ms ease',
+};
 
 const kicker = {
   fontSize: 10,
