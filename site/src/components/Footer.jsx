@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Honeypot from './Honeypot.jsx';
+import LogoMark from './LogoMark.jsx';
 import { useFormGuard } from '../hooks/useFormGuard.js';
 
 const linkStyle = {
@@ -143,12 +144,7 @@ export default function Footer() {
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <svg width="26" height="26" viewBox="0 0 16 16" fill="var(--paper)" aria-hidden>
-                <circle cx="8" cy="8" r="2.3" />
-                {[0, 60, 120, 180, 240, 300].map((deg) => (
-                  <ellipse key={deg} cx="8" cy="3.4" rx="1.5" ry="2.5" transform={`rotate(${deg} 8 8)`} />
-                ))}
-              </svg>
+              <LogoMark size={26} style={{ color: 'var(--color-accent-300)' }} />
               <span style={{ fontFamily: 'var(--font-heading)', fontSize: 28, color: 'var(--paper)' }}>
                 The Marigold Arms
               </span>

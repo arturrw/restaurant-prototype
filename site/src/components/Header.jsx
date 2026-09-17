@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
+import LogoMark from './LogoMark.jsx';
 import PaletteSwitcher from './PaletteSwitcher.jsx';
 import SwapText from './SwapText.jsx';
 
@@ -79,36 +80,47 @@ export default function Header() {
           onClick={goHome}
           aria-label="The Marigold Arms — home"
           style={{
-            display: 'flex', flexDirection: 'column', gap: 1,
+            display: 'flex', alignItems: 'center', gap: 10,
             background: 'none', border: 0, padding: 0, cursor: 'pointer',
             textAlign: 'left', color: 'var(--color-text)',
           }}
         >
-          <span
+          <LogoMark
             style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: scrolled ? 19 : 25,
-              lineHeight: 1,
-              letterSpacing: '0.01em',
-              transition: 'font-size 380ms ease',
-            }}
-          >
-            The Marigold Arms
-          </span>
-          <span
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 9,
-              letterSpacing: '0.26em',
-              textTransform: 'uppercase',
+              width: scrolled ? 22 : 28,
+              height: scrolled ? 22 : 28,
               color: 'var(--color-accent-700)',
-              opacity: scrolled ? 0 : 1,
-              maxHeight: scrolled ? 0 : 16,
-              overflow: 'hidden',
-              transition: 'opacity 300ms ease, max-height 380ms ease',
+              flexShrink: 0,
+              transition: 'width 380ms ease, height 380ms ease',
             }}
-          >
-            Kensington · est. 1848
+          />
+          <span style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: scrolled ? 19 : 25,
+                lineHeight: 1,
+                letterSpacing: '0.01em',
+                transition: 'font-size 380ms ease',
+              }}
+            >
+              The Marigold Arms
+            </span>
+            <span
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 9,
+                letterSpacing: '0.26em',
+                textTransform: 'uppercase',
+                color: 'var(--color-accent-700)',
+                opacity: scrolled ? 0 : 1,
+                maxHeight: scrolled ? 0 : 16,
+                overflow: 'hidden',
+                transition: 'opacity 300ms ease, max-height 380ms ease',
+              }}
+            >
+              Kensington · est. 1848
+            </span>
           </span>
         </button>
 
