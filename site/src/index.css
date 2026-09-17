@@ -178,6 +178,90 @@ textarea.input { min-height: 92px; resize: vertical; }
 .seg-opt:has(input:checked) { color: var(--color-accent); box-shadow: inset 0 0 0 1px var(--color-accent); }
 .seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
 
+/* — map — */
+/* Tints the OSM tiles toward the site's parchment-and-sage palette instead
+   of raw web-map colour. Filters, not a different tile source, so it still
+   works for every accent palette the switcher offers. */
+.marigold-map .leaflet-tile-pane {
+  filter: sepia(45%) saturate(65%) hue-rotate(50deg) brightness(1.04) contrast(0.94);
+}
+/* Leaflet's own panes/controls carry z-index up to 1000 and, without this,
+   that escapes the map and floats above the sticky header (z-index 60)
+   while scrolling. `isolation` boxes all of it into one stacking context
+   no taller than the map element itself. */
+.marigold-map { background: var(--color-surface) !important; isolation: isolate; z-index: 0; }
+.marigold-pin { background: none; border: none; }
+.marigold-pin-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: marigold-pulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes marigold-pulse {
+  0% { transform: scale(1); opacity: 0.45; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); border-radius: var(--radius-md);
+}
+.leaflet-container { font-family: var(--font-body); }
+
+/* — booking calendar — */
+.cal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-heading); font-size: 16px; margin-bottom: var(--space-3);
+}
+.cal-nav {
+  width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid var(--color-divider); border-radius: var(--radius-sm);
+  cursor: pointer; color: var(--color-text); font-size: 15px; line-height: 1; padding: 0;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+.cal-nav:hover:not(:disabled) { border-color: var(--color-accent); color: var(--color-accent-700); }
+.cal-nav:disabled { opacity: 0.3; cursor: default; }
+
+.cal-weekdays, .cal-days { display: grid; grid-template-columns: repeat(7, 1fr); }
+.cal-weekdays span {
+  text-align: center; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent); padding-bottom: 6px;
+}
+.cal-days { gap: 2px; }
+.cal-day {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid transparent; border-radius: var(--radius-sm);
+  font-size: 13px; font-family: var(--font-body); color: var(--color-text); padding: 0;
+  cursor: pointer; transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+.cal-day:hover:not(:disabled) { border-color: var(--color-accent-300); }
+.cal-day:disabled { color: color-mix(in srgb, var(--color-text) 28%, transparent); cursor: default; }
+.cal-day[data-today='true'] { color: var(--color-accent-700); font-weight: 600; }
+.cal-day[data-selected='true'] {
+  background: var(--color-accent-700); color: var(--paper); border-color: var(--color-accent-700);
+}
+
+.cal-slots { display: flex; flex-direction: column; min-width: 0; }
+.cal-slots-date { font-family: var(--font-heading); font-size: 17px; margin: 0 0 var(--space-3); }
+.cal-slots-empty {
+  margin: auto 0; font-size: 13.5px; line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.cal-slots-list { display: grid; gap: 8px; }
+.cal-slot {
+  text-align: left; padding: 9px 14px; font-size: 14px; font-family: var(--font-body);
+  background: none; border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+  cursor: pointer; color: var(--color-text);
+  transition: border-color 180ms ease, color 180ms ease, background-color 180ms ease;
+}
+.cal-slot:hover { border-color: var(--color-accent); }
+.cal-slot[data-selected='true'] {
+  border-color: var(--color-accent-700); color: var(--color-accent-700);
+  background: var(--color-accent-100);
+}
+.cal-slots-hint {
+  margin: var(--space-3) 0 0; font-size: 12px; line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+
 /* — tables — */
 .table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .table th {

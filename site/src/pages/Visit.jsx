@@ -2,18 +2,19 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import PageIntro from '../components/PageIntro.jsx';
-import Plate from '../components/Plate.jsx';
+import LocationMap from '../components/LocationMap.jsx';
+import BookingCalendar from '../components/BookingCalendar.jsx';
 import Reveal from '../components/Reveal.jsx';
-import { img } from '../data/images.js';
-
-const sittings = ['12.00', '18.30', '20.30'];
+import Honeypot from '../components/Honeypot.jsx';
+import { useFormGuard } from '../hooks/useFormGuard.js';
+import { sittingsForDate } from '../data/sittings.js';
 
 const emptyForm = { name: '', phone: '', date: '', guests: '2', sitting: '18.30', notes: '' };
 
 function validate(form) {
   const errors = {};
   if (!form.name.trim()) errors.name = 'Please tell us who the table is for.';
-  if (!/^[\d\s+()-]{7,}$/.test(form.phone.trim())) errors.phone = 'A telephone number we can reach you on.';
+  if (!/^\d{7,15}$/.test(form.phone.trim())) errors.phone = 'A telephone number we can reach you on.';
   if (!form.date) errors.date = 'Which day would you like?';
   else if (form.date < new Date().toISOString().slice(0, 10)) errors.date = 'That date has passed.';
   const guests = Number(form.guests);
@@ -25,14 +26,47 @@ export default function Visit() {
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle');
+  const [honeypot, setHoneypot] = useState('');
+  const { isBot } = useFormGuard();
 
   const set = (key) => (e) => {
     setForm((f) => ({ ...f, [key]: e.target.value }));
     setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
   };
 
+  // Filtered variants for fields where only certain characters make sense —
+  // stripped as you type rather than merely flagged after the fact.
+  const setFiltered = (key, filter) => (e) => {
+    setForm((f) => ({ ...f, [key]: filter(e.target.value) }));
+    setErrors((prev) => (prev[key] ? { ...prev, [key]: undefined } : prev));
+  };
+  const setName = setFiltered('name', (v) => v.replace(/[^\p{L}\s'-]/gu, ''));
+  const setPhone = setFiltered('phone', (v) => v.replace(/\D/g, '').slice(0, 15));
+  const setGuests = setFiltered('guests', (v) => {
+    const digits = v.replace(/\D/g, '');
+    return digits === '' ? '' : String(Math.min(Number(digits), 12));
+  });
+
+  const selectDate = (iso) => {
+    setForm((f) => {
+      const options = sittingsForDate(iso);
+      return { ...f, date: iso, sitting: options.includes(f.sitting) ? f.sitting : options[0] };
+    });
+    setErrors((prev) => (prev.date ? { ...prev, date: undefined } : prev));
+  };
+  const selectSitting = (s) => setForm((f) => ({ ...f, sitting: s }));
+
   const submit = (e) => {
     e.preventDefault();
+
+    // A filled honeypot or a suspiciously instant submit reads as automated.
+    // We don't tip it off — just skip straight to the same confirmation a
+    // real guest would see, without validating or "sending" anything.
+    if (isBot(honeypot)) {
+      setStatus('sent');
+      return;
+    }
+
     const found = validate(form);
     setErrors(found);
     if (Object.keys(found).length) return;
@@ -108,7 +142,7 @@ export default function Visit() {
                 </p>
                 <button
                   className="btn btn-secondary"
-                  onClick={() => { setForm(emptyForm); setStatus('idle'); }}
+                  onClick={() => { setForm(emptyForm); setHoneypot(''); setStatus('idle'); }}
                   style={{ letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: 12 }}
                 >
                   Book another
@@ -123,48 +157,40 @@ export default function Visit() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
+                <Honeypot value={honeypot} onChange={(e) => setHoneypot(e.target.value)} name="company" />
                 <div className="form-grid">
                   <Field label="Name" error={errors.name}>
                     <input
-                      className="input" type="text" placeholder="Your name" value={form.name}
-                      onChange={set('name')} aria-invalid={!!errors.name} autoComplete="name"
+                      className="input" type="text" placeholder="e.g. James Whitfield" value={form.name}
+                      onChange={setName} aria-invalid={!!errors.name} autoComplete="name"
                     />
                   </Field>
                   <Field label="Telephone" error={errors.phone}>
                     <input
-                      className="input" type="tel" placeholder="07…" value={form.phone}
-                      onChange={set('phone')} aria-invalid={!!errors.phone} autoComplete="tel"
-                    />
-                  </Field>
-                  <Field label="Date" error={errors.date}>
-                    <input
-                      className="input" type="date" value={form.date}
-                      min={new Date().toISOString().slice(0, 10)}
-                      onChange={set('date')} aria-invalid={!!errors.date}
+                      className="input" type="tel" inputMode="numeric" placeholder="e.g. 07700 900123"
+                      value={form.phone} onChange={setPhone} aria-invalid={!!errors.phone}
+                      autoComplete="tel" maxLength={15}
                     />
                   </Field>
                   <Field label="Guests" error={errors.guests}>
                     <input
-                      className="input" type="number" min="1" max="12" value={form.guests}
-                      onChange={set('guests')} aria-invalid={!!errors.guests}
+                      className="input" type="text" inputMode="numeric" maxLength={2}
+                      value={form.guests} onChange={setGuests} aria-invalid={!!errors.guests}
                     />
                   </Field>
                 </div>
 
-                <div className="field" style={{ marginTop: 'var(--space-4)' }}>
-                  <label>Sitting</label>
-                  <div className="seg" style={{ marginTop: 4 }}>
-                    {sittings.map((s) => (
-                      <label className="seg-opt" key={s}>
-                        <input
-                          type="radio" name="sitting" value={s}
-                          checked={form.sitting === s}
-                          onChange={set('sitting')}
-                        />
-                        <span>{s}</span>
-                      </label>
-                    ))}
-                  </div>
+                <div style={{ marginTop: 'var(--space-4)' }}>
+                  <Field label="Date & sitting" error={errors.date}>
+                    <div style={{ marginTop: 4 }}>
+                      <BookingCalendar
+                        value={form.date}
+                        onSelectDate={selectDate}
+                        sitting={form.sitting}
+                        onSelectSitting={selectSitting}
+                      />
+                    </div>
+                  </Field>
                 </div>
 
                 <div className="field" style={{ marginTop: 'var(--space-4)' }}>
@@ -199,7 +225,7 @@ export default function Visit() {
         </Reveal>
 
         <Reveal as="section" from="left" delay={0.12} fade={false} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-          <Plate src={img.visitMap} alt="Elder Street, Kensington" style={{ height: 300 }} />
+          <LocationMap />
 
           <div>
             <h3 style={asideHeading}>Finding us</h3>
@@ -241,6 +267,28 @@ export default function Visit() {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div id="private-hire" style={{ scrollMarginTop: 'calc(var(--header-h) + 24px)' }}>
+            <h3 style={asideHeading}>Private hire</h3>
+            <p style={{ margin: 'var(--space-4) 0 0', fontSize: 14, lineHeight: 1.8, color: 'color-mix(in srgb, var(--color-text) 70%, transparent)' }}>
+              The room upstairs seats twenty-eight, has its own bar, and can be booked whole for
+              a party, a wake, or an office that has earned a long lunch.
+            </p>
+            <a href="mailto:events@marigoldarms.co.uk" style={{ display: 'inline-block', marginTop: 'var(--space-2)', fontSize: 14 }}>
+              events@marigoldarms.co.uk
+            </a>
+          </div>
+
+          <div id="careers" style={{ scrollMarginTop: 'calc(var(--header-h) + 24px)' }}>
+            <h3 style={asideHeading}>Work with us</h3>
+            <p style={{ margin: 'var(--space-4) 0 0', fontSize: 14, lineHeight: 1.8, color: 'color-mix(in srgb, var(--color-text) 70%, transparent)' }}>
+              We're usually looking for kitchen porters, front of house, and the odd cellar hand
+              who doesn't mind a cold morning. No CV needed — tell us what you've done.
+            </p>
+            <a href="mailto:jobs@marigoldarms.co.uk" style={{ display: 'inline-block', marginTop: 'var(--space-2)', fontSize: 14 }}>
+              jobs@marigoldarms.co.uk
+            </a>
           </div>
         </Reveal>
       </div>

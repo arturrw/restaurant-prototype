@@ -12,10 +12,20 @@ import Visit from './pages/Visit.jsx';
 import NotFound from './pages/NotFound.jsx';
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  }, [pathname]);
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      return;
+    }
+    // The target page may still be mid page-transition (or, arriving from
+    // elsewhere, not yet mounted) when this runs, so the element isn't
+    // there yet — give it a beat before giving up.
+    const id = setTimeout(() => {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 400);
+    return () => clearTimeout(id);
+  }, [pathname, hash]);
   return null;
 }
 
