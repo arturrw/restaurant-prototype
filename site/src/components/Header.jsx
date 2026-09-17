@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import PaletteSwitcher from './PaletteSwitcher.jsx';
 import SwapText from './SwapText.jsx';
@@ -16,6 +16,21 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const goHome = () => {
+    // `navigate('/')` from "/" is a no-op — the pathname doesn't change, so
+    // App.jsx's ScrollToTop (keyed on pathname/hash) never re-runs.
+    if (location.pathname === '/') {
+      // `behavior: 'smooth'` here overlaps with the header's own 380ms
+      // scrolled-state padding transition and settles a few px short of 0
+      // (scroll anchoring compensating for the header's own resize mid-scroll).
+      // Matching ScrollToTop's instant jump for cross-page navigation avoids it.
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    } else {
+      navigate('/');
+    }
+  };
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, restDelta: 0.001 });
@@ -61,7 +76,7 @@ export default function Header() {
         }}
       >
         <button
-          onClick={() => navigate('/')}
+          onClick={goHome}
           aria-label="The Marigold Arms — home"
           style={{
             display: 'flex', flexDirection: 'column', gap: 1,

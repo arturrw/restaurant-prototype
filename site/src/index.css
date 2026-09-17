@@ -71,7 +71,10 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* overflow-anchor: without it, the header's own scrolled-state padding
+   transition (right after a scroll-to-top) nudges the browser's scroll
+   anchoring to "correct" the position by a few px instead of landing on 0. */
+html { scroll-behavior: smooth; overflow-anchor: none; }
 
 body {
   margin: 0;
@@ -318,9 +321,12 @@ textarea.input { min-height: 92px; resize: vertical; }
 .underline-grow::after {
   content: ''; position: absolute; left: 0; bottom: -3px; height: 1px; width: 100%;
   background: currentColor; transform: scaleX(0); transform-origin: left;
-  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 460ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .underline-grow:hover::after, .underline-grow[data-active='true']::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .underline-grow::after { transition: none; }
+}
 
 /* — on hover, the line slides up and out while an identical copy slides
    up into its place — used on the header nav — */
