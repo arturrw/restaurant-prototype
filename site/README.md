@@ -15,7 +15,7 @@ Vite · React 18 · React Router 6 · Tailwind v4 (reset + a few utilities) · F
 The Classical design system from `../_ds/classical-*/styles.css` is ported into
 `src/index.css` as CSS custom properties and component classes, so the tokens,
 type scale and `.plate` / `.btn` / `.input` / `.table` styles match the prototype.
-The prototype's four palettes are `[data-palette]` blocks, switched at runtime by
+The prototype's three palettes are `[data-palette]` blocks, switched at runtime by
 the swatches in the header and remembered in `localStorage`.
 
 ## Routes

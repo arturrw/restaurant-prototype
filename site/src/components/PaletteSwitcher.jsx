@@ -4,7 +4,6 @@ const palettes = [
   { id: 'green', label: 'Green & gilt', swatch: '#5d7a5a' },
   { id: 'bordeaux', label: 'Bordeaux & gilt', swatch: '#8c3f45' },
   { id: 'inkblue', label: 'Ink blue & brass', swatch: '#3c5a74' },
-  { id: 'brass', label: 'Brass & cream', swatch: '#b68235' },
 ];
 
 export default function PaletteSwitcher() {
