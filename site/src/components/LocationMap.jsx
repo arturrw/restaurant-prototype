@@ -33,7 +33,7 @@ export default function LocationMap({ style }) {
     <MapContainer
       center={position}
       zoom={16}
-      scrollWheelZoom={false}
+      scrollWheelZoom
       attributionControl={false}
       className="marigold-map"
       style={{ height: 300, borderRadius: 'var(--radius-md)', ...style }}

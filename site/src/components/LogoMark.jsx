@@ -2,7 +2,7 @@
    so the header, footer and favicon all stay in sync. Uses `currentColor`
    so each placement just sets its own `color`, which is how it ends up
    tracking the active accent palette instead of being baked in. */
-export default function LogoMark({ size = 24, className, style }) {
+export default function LogoMark({ size = 24, className = '', style }) {
   return (
     <svg
       width={size}
@@ -10,7 +10,7 @@ export default function LogoMark({ size = 24, className, style }) {
       viewBox="0 0 16 16"
       fill="currentColor"
       aria-hidden
-      className={className}
+      className={['logo-mark', className].filter(Boolean).join(' ')}
       style={style}
     >
       <circle cx="8" cy="8" r="2.3" />
