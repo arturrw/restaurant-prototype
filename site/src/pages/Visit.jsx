@@ -78,6 +78,9 @@ export default function Visit() {
   };
 
   return (
+    // Solid, full-bleed white — the ambient background glow (App.jsx) showing
+    // through here was washing out the form labels and aside text.
+    <div style={{ background: '#fff' }}>
     <main className="wrap" style={{ paddingBlock: 'calc(var(--space-8)*1.6) calc(var(--space-8)*2)' }}>
       <PageIntro kicker="Elder Street, W8" title="Come and See Us" />
 
@@ -333,6 +336,7 @@ export default function Visit() {
         </Reveal>
       </div>
     </main>
+    </div>
   );
 }
 
