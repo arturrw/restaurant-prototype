@@ -1,4 +1,4 @@
-const U = (id, w = 1400) =>
+export const U = (id, w = 1400) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=72`;
 
 export const heroSlides = [

@@ -2,7 +2,9 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
+import DishLightbox from '../components/DishLightbox.jsx';
 import PageIntro from '../components/PageIntro.jsx';
+import Plate from '../components/Plate.jsx';
 import Reveal from '../components/Reveal.jsx';
 import { menuTabs, menus } from '../data/menus.js';
 
@@ -39,6 +41,13 @@ export default function Menus() {
   };
 
   const active = menus[isService(displayTab) ? displayTab : 'dinner'];
+
+  /* Flattened so the lightbox can step through every photographed dish on
+     the active tab with the arrow keys, independent of which column (or
+     heading) it started in. */
+  const photographed = active.columns.flatMap((col) => col.items.filter((item) => item.image));
+  const [openDish, setOpenDish] = useState(null);
+  const navigateDish = (next) => setOpenDish(((next % photographed.length) + photographed.length) % photographed.length);
 
   /* The pill is one measured rect rather than a `layoutId` pair. A shared
      layout animation here leaves a projection node alive inside the route
@@ -162,6 +171,24 @@ export default function Menus() {
             ))}
           </motion.div>
         </motion.div>
+
+        {/* A small glow that rides the pill's top-right corner, half on the
+            capsule and half spilling onto the tab bar — the pill itself
+            clips its own contents to swap the label colour, so this travels
+            as a sibling rather than a child. */}
+        <motion.div
+          aria-hidden
+          animate={{ x: bar.left + bar.width, y: bar.top }}
+          initial={false}
+          transition={pillTransition}
+          style={{ position: 'absolute', left: 0, top: 0, zIndex: 2, pointerEvents: 'none' }}
+        >
+          <span className="orb-marker" style={{ transform: 'translate(-50%, -50%)' }}>
+            <span className="orb-outer" />
+            <span className="orb-mid" />
+            <span className="orb-core" />
+          </span>
+        </motion.div>
       </div>
 
       <motion.div
@@ -223,21 +250,38 @@ export default function Menus() {
                       borderBottom: '1px solid var(--color-divider)',
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-3)' }}>
-                      <h4 style={{ margin: 0, fontSize: 20, fontWeight: 400 }}>{item.name}</h4>
-                      <span style={{ flex: 1, height: 1, background: 'var(--color-divider)' }} />
-                      <span style={{ fontFamily: 'var(--font-heading)', fontSize: 18 }}>{item.price}</span>
+                    <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+                      {item.image && (
+                        <button
+                          onClick={() => setOpenDish(photographed.indexOf(item))}
+                          aria-label={`See a larger photo of ${item.name}`}
+                          style={{
+                            flexShrink: 0, width: 56, height: 56, padding: 0, border: 0,
+                            background: 'none', cursor: 'zoom-in', borderRadius: 'var(--radius-md)',
+                            overflow: 'hidden',
+                          }}
+                        >
+                          <Plate src={item.image} alt="" style={{ width: 56, height: 56, borderWidth: 3 }} />
+                        </button>
+                      )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-3)' }}>
+                          <h4 style={{ margin: 0, fontSize: 20, fontWeight: 400 }}>{item.name}</h4>
+                          <span style={{ flex: 1, height: 1, background: 'var(--color-divider)' }} />
+                          <span style={{ fontFamily: 'var(--font-heading)', fontSize: 18 }}>{item.price}</span>
+                        </div>
+                        {item.desc && (
+                          <p
+                            style={{
+                              margin: '6px 0 0', fontSize: 13.5, lineHeight: 1.7, maxWidth: '52ch',
+                              color: 'color-mix(in srgb, var(--color-text) 62%, transparent)',
+                            }}
+                          >
+                            {item.desc} {item.veg && <em>v</em>}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    {item.desc && (
-                      <p
-                        style={{
-                          margin: '6px 0 0', fontSize: 13.5, lineHeight: 1.7, maxWidth: '52ch',
-                          color: 'color-mix(in srgb, var(--color-text) 62%, transparent)',
-                        }}
-                      >
-                        {item.desc} {item.veg && <em>v</em>}
-                      </p>
-                    )}
                   </motion.div>
                 ))}
               </div>
@@ -291,6 +335,8 @@ export default function Menus() {
           Book a table
         </Link>
       </Reveal>
+
+      <DishLightbox dishes={photographed} index={openDish} onClose={() => setOpenDish(null)} onNavigate={navigateDish} />
     </main>
   );
 }

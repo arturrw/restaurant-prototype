@@ -61,25 +61,25 @@ export default function Footer() {
             <p style={kicker}>Visit</p>
             <p style={{ fontSize: 13.5, lineHeight: 1.9, margin: 0, color: 'color-mix(in srgb, var(--paper) 72%, transparent)' }}>
               14 Elder Street<br />London W8 4QT<br />
-              <a href="tel:+442079460014" style={linkStyle}>020 7946 0014</a>
+              <a href="tel:+442079460014" className="underline-grow" style={linkStyle}>020 7946 0014</a>
             </p>
           </div>
 
           <div>
             <p style={kicker}>The house</p>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
-              <Link to="/menus" style={linkStyle}>Menus</Link>
-              <Link to="/drinks" style={linkStyle}>Drinks</Link>
-              <Link to="/gallery" style={linkStyle}>Gallery</Link>
-              <Link to="/visit" style={linkStyle}>Book a table</Link>
+              <Link to="/menus" className="underline-grow" style={linkStyle}>Menus</Link>
+              <Link to="/drinks" className="underline-grow" style={linkStyle}>Drinks</Link>
+              <Link to="/gallery" className="underline-grow" style={linkStyle}>Gallery</Link>
+              <Link to="/visit" className="underline-grow" style={linkStyle}>Book a table</Link>
             </div>
           </div>
 
           <div>
             <p style={kicker}>Elsewhere</p>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
-              <Link to="/visit#private-hire" style={linkStyle}>Private hire</Link>
-              <Link to="/visit#careers" style={linkStyle}>Work with us</Link>
+              <Link to="/visit#private-hire" className="underline-grow" style={linkStyle}>Private hire</Link>
+              <Link to="/visit#careers" className="underline-grow" style={linkStyle}>Work with us</Link>
               <a href="mailto:table@marigoldarms.co.uk" style={linkStyle}>
                 <span className="email-hover">table@marigoldarms.co.uk</span>
               </a>

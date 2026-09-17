@@ -174,11 +174,18 @@ textarea.input { min-height: 92px; resize: vertical; }
 .seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
 
 /* — map — */
-/* Tints the OSM tiles toward the site's parchment-and-sage palette instead
-   of raw web-map colour. Filters, not a different tile source, so it still
-   works for every accent palette the switcher offers. */
+/* Tints the OSM tiles toward the active palette instead of raw web-map
+   colour. Filters, not a different tile source — sepia first desaturates
+   the source map to a single warm base, then hue-rotate turns that base
+   toward each palette's accent. */
 .marigold-map .leaflet-tile-pane {
   filter: sepia(45%) saturate(65%) hue-rotate(50deg) brightness(1.04) contrast(0.94);
+}
+[data-palette='bordeaux'] .marigold-map .leaflet-tile-pane {
+  filter: sepia(45%) saturate(70%) hue-rotate(-15deg) brightness(1.04) contrast(0.94);
+}
+[data-palette='inkblue'] .marigold-map .leaflet-tile-pane {
+  filter: sepia(45%) saturate(65%) hue-rotate(160deg) brightness(1.02) contrast(0.94);
 }
 /* Leaflet's own panes/controls carry z-index up to 1000 and, without this,
    that escapes the map and floats above the sticky header (z-index 60)
@@ -357,6 +364,16 @@ textarea.input { min-height: 92px; resize: vertical; }
   .email-hover::before { transition: none; }
 }
 
+/* — the dish lightbox's overlaid prev/next/close controls — a white ring
+   only appears on hover, so the photo stays unframed at rest — */
+.overlay-btn {
+  border: 1.5px solid transparent;
+  transition: background-color 240ms ease, border-color 240ms ease;
+}
+.overlay-btn:hover, .overlay-btn:focus-visible {
+  border-color: var(--paper);
+}
+
 /* — the ornamental rule under section kickers — */
 .rule-flourish {
   display: flex; align-items: center; justify-content: center; gap: var(--space-3);
@@ -372,6 +389,33 @@ textarea.input { min-height: 92px; resize: vertical; }
   50% { transform: translateY(-7px); }
 }
 .float-slow { animation: marigold-float 3.4s ease-in-out infinite; }
+
+/* — a small pulsing glow marker that travels with the active menu tab —
+   borrowed from corndel.com's card icons (a wobbling blurred halo behind a
+   smaller static dot), recoloured sage-and-marigold for the house. Only the
+   outer halo animates; same trick as corndel's — it exactly fills its
+   centered box, so the animation's own transform never needs to re-centre
+   it. */
+.orb-marker { display: inline-block; position: relative; width: 16px; height: 16px; flex-shrink: 0; }
+.orb-marker span { position: absolute; inset: 0; margin: auto; border-radius: 50%; }
+.orb-marker .orb-outer {
+  width: 16px; height: 16px;
+  background: var(--color-accent-300);
+  filter: blur(2px);
+  animation: orb-wobble 2.1s ease infinite;
+}
+.orb-marker .orb-mid { width: 11px; height: 11px; background: #e3b34a; filter: blur(1.2px); }
+.orb-marker .orb-core { width: 3.5px; height: 3.5px; background: var(--ink); }
+@keyframes orb-wobble {
+  0% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.08) rotate(90deg); }
+  50% { transform: scale(1.14) rotate(180deg); }
+  75% { transform: scale(1.08) rotate(270deg); }
+  100% { transform: scale(1) rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb-marker .orb-outer { animation: none; }
+}
 
 @keyframes marigold-shimmer {
   from { background-position: -420px 0; }
