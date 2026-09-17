@@ -28,13 +28,16 @@ export default function Menus() {
      completing its exit — after switching a tab, every later navigation died. */
   const listRef = useRef(null);
   const [bar, setBar] = useState({ left: 0, top: 0, width: 0, height: 0 });
+  const [box, setBox] = useState({ width: 0, height: 0 });
+  const pillTransition = { type: 'spring', stiffness: 420, damping: 36 };
 
   useLayoutEffect(() => {
     const measure = () => {
       const list = listRef.current;
       const el = list?.querySelector('[aria-selected="true"]');
-      if (!el) return;
+      if (!list || !el) return;
       setBar({ left: el.offsetLeft, top: el.offsetTop, width: el.offsetWidth, height: el.offsetHeight });
+      setBox({ width: list.offsetWidth, height: list.offsetHeight });
     };
     measure();
     window.addEventListener('resize', measure);
@@ -66,37 +69,62 @@ export default function Menus() {
           maxWidth: 860,
         }}
       >
-        <motion.span
+        {menuTabs.map((t) => (
+          <button
+            key={t.id}
+            role="tab"
+            aria-selected={t.id === tab}
+            onClick={() => select(t.id)}
+            style={{
+              position: 'relative', background: 'none', border: 0,
+              borderRadius: 999,
+              padding: '10px 22px', cursor: 'pointer',
+              fontFamily: 'var(--font-heading)', fontSize: 17,
+              color: 'color-mix(in srgb, var(--color-text) 62%, transparent)',
+            }}
+          >
+            {t.label}
+          </button>
+        ))}
+
+        {/* The capsule carries its own paper-coloured label, clipped to its own
+            bounds, so the text only turns light exactly where the accent fill
+            has already arrived — no separate color transition to fall out of
+            sync with the sliding pill. */}
+        <motion.div
           aria-hidden
           animate={{ x: bar.left, y: bar.top, width: bar.width, height: bar.height }}
           initial={false}
-          transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+          transition={pillTransition}
           style={{
-            position: 'absolute', left: 0, top: 0,
-            background: 'var(--color-accent-700)', borderRadius: 999,
+            position: 'absolute', left: 0, top: 0, zIndex: 1,
+            overflow: 'hidden', borderRadius: 999,
+            background: 'var(--color-accent-700)', pointerEvents: 'none',
           }}
-        />
-        {menuTabs.map((t) => {
-          const on = t.id === tab;
-          return (
-            <button
-              key={t.id}
-              role="tab"
-              aria-selected={on}
-              onClick={() => select(t.id)}
-              style={{
-                position: 'relative', zIndex: 1, background: 'none', border: 0,
-                borderRadius: 999,
-                padding: '10px 22px', cursor: 'pointer',
-                fontFamily: 'var(--font-heading)', fontSize: 17,
-                color: on ? 'var(--paper)' : 'color-mix(in srgb, var(--color-text) 62%, transparent)',
-                transition: 'color 240ms ease',
-              }}
-            >
-              {t.label}
-            </button>
-          );
-        })}
+        >
+          <motion.div
+            animate={{ x: -bar.left, y: -bar.top }}
+            initial={false}
+            transition={pillTransition}
+            style={{
+              position: 'absolute', left: 0, top: 0,
+              width: box.width, height: box.height,
+              display: 'flex', flexWrap: 'wrap', gap: 2, padding: 5, justifyContent: 'center',
+            }}
+          >
+            {menuTabs.map((t) => (
+              <span
+                key={t.id}
+                style={{
+                  padding: '10px 22px', whiteSpace: 'nowrap',
+                  fontFamily: 'var(--font-heading)', fontSize: 17, color: 'var(--paper)',
+                }}
+              >
+                {t.label}
+              </span>
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Enter-only, keyed on the tab. Do NOT wrap this in another
