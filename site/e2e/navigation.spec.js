@@ -23,7 +23,9 @@ test('header nav links point to real routes', async ({ page }) => {
   await page.goto('/');
   const nav = page.locator('.nav-desktop');
   for (const label of ['Home', 'Menus', 'Drinks', 'Gallery', 'Visit']) {
-    await expect(nav.getByText(label, { exact: true })).toBeVisible();
+    // Each label is rendered twice for the swap-up hover effect — the
+    // second copy is aria-hidden, so take the first (real) match.
+    await expect(nav.getByText(label, { exact: true }).first()).toBeVisible();
   }
 });
 

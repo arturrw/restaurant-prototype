@@ -283,6 +283,22 @@ textarea.input { min-height: 92px; resize: vertical; }
 }
 .underline-grow:hover::after, .underline-grow[data-active='true']::after { transform: scaleX(1); }
 
+/* — on hover, the line slides up and out while an identical copy slides
+   up into its place — used on nav links and email addresses — */
+.swap { display: inline-block; overflow: hidden; height: 1lh; vertical-align: top; }
+.swap-track {
+  display: block;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.swap-line { display: block; }
+/* -50%, not -100%: the track's own box is two stacked lines tall, so a
+   percentage translate is relative to that doubled height — -50% moves
+   it up by exactly one line. */
+.swap:hover .swap-track, .swap:focus-visible .swap-track { transform: translateY(-50%); }
+@media (prefers-reduced-motion: reduce) {
+  .swap-track { transition: none; }
+}
+
 /* — the ornamental rule under section kickers — */
 .rule-flourish {
   display: flex; align-items: center; justify-content: center; gap: var(--space-3);

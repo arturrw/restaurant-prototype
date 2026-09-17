@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import PaletteSwitcher from './PaletteSwitcher.jsx';
+import SwapText from './SwapText.jsx';
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -111,7 +112,7 @@ export default function Header() {
                     transition: 'color 240ms ease',
                   }}
                 >
-                  {l.label}
+                  <SwapText>{l.label}</SwapText>
                 </span>
               )}
             </NavLink>

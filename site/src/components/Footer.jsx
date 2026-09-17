@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Honeypot from './Honeypot.jsx';
+import SwapText from './SwapText.jsx';
 import { useFormGuard } from '../hooks/useFormGuard.js';
 
 const linkStyle = {
@@ -80,7 +81,9 @@ export default function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
               <Link to="/visit#private-hire" style={linkStyle}>Private hire</Link>
               <Link to="/visit#careers" style={linkStyle}>Work with us</Link>
-              <a href="mailto:table@marigoldarms.co.uk" style={linkStyle}>table@marigoldarms.co.uk</a>
+              <a href="mailto:table@marigoldarms.co.uk" style={linkStyle}>
+                <SwapText>table@marigoldarms.co.uk</SwapText>
+              </a>
             </div>
           </div>
         </div>
