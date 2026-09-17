@@ -89,6 +89,14 @@ export default function Drinks() {
               </tbody>
             </table>
           </div>
+
+          <Reveal from="up" delay={0.1}>
+            <Plate
+              src={img.cellar}
+              alt="The cellar, casks stillaged"
+              style={{ height: 300, marginTop: 'calc(var(--space-8)*1.2)' }}
+            />
+          </Reveal>
         </section>
 
         <section>
@@ -118,8 +126,8 @@ export default function Drinks() {
 
           <Reveal from="up" delay={0.1}>
             <Plate
-              src={img.cellar}
-              alt="The cellar, casks stillaged"
+              src={img.wineCellar}
+              alt="The wine cellar, bottles racked"
               style={{ height: 300, marginTop: 'calc(var(--space-8)*1.2)' }}
             />
           </Reveal>

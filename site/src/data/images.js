@@ -19,6 +19,7 @@ export const img = {
 
   dining: U('photo-1646601110870-09b30c00bd92', 1200),
   cellar: U('photo-1615780324244-29b71ae12f7d', 1200),
+  wineCellar: U('photo-1633119985201-7fb2c6eb1aec', 1200),
   visitMap: U('photo-1627245084666-199325217d5b', 1200),
 };
 
