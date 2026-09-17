@@ -67,7 +67,7 @@ export default function Footer() {
                 href="https://www.google.com/maps/search/?api=1&query=14+Elder+Street+London+W8+4QT"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline-grow"
+                className="underline-grow-lines"
                 style={{ ...linkStyle, color: 'inherit' }}
               >
                 14 Elder Street<br />London W8 4QT
