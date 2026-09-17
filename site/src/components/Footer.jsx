@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Honeypot from './Honeypot.jsx';
-import SwapText from './SwapText.jsx';
 import { useFormGuard } from '../hooks/useFormGuard.js';
 
 const linkStyle = {
@@ -82,7 +81,7 @@ export default function Footer() {
               <Link to="/visit#private-hire" style={linkStyle}>Private hire</Link>
               <Link to="/visit#careers" style={linkStyle}>Work with us</Link>
               <a href="mailto:table@marigoldarms.co.uk" style={linkStyle}>
-                <SwapText>table@marigoldarms.co.uk</SwapText>
+                <span className="email-hover email-hover--dark">table@marigoldarms.co.uk</span>
               </a>
             </div>
           </div>

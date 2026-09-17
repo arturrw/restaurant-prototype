@@ -6,7 +6,6 @@ import LocationMap from '../components/LocationMap.jsx';
 import BookingCalendar from '../components/BookingCalendar.jsx';
 import Reveal from '../components/Reveal.jsx';
 import Honeypot from '../components/Honeypot.jsx';
-import SwapText from '../components/SwapText.jsx';
 import { useFormGuard } from '../hooks/useFormGuard.js';
 import { sittingsForDate } from '../data/sittings.js';
 import { buildCalendarLinks } from '../utils/calendarLink.js';
@@ -282,7 +281,7 @@ export default function Visit() {
               14 Elder Street<br />
               Kensington, London W8 4QT<br />
               <a href="tel:+442079460014">020 7946 0014</a><br />
-              <a href="mailto:table@marigoldarms.co.uk"><SwapText>table@marigoldarms.co.uk</SwapText></a>
+              <a href="mailto:table@marigoldarms.co.uk"><span className="email-hover">table@marigoldarms.co.uk</span></a>
             </p>
             <p
               style={{
@@ -325,7 +324,7 @@ export default function Visit() {
               a party, a wake, or an office that has earned a long lunch.
             </p>
             <a href="mailto:events@marigoldarms.co.uk" style={{ display: 'inline-block', marginTop: 'var(--space-2)', fontSize: 14 }}>
-              <SwapText>events@marigoldarms.co.uk</SwapText>
+              <span className="email-hover">events@marigoldarms.co.uk</span>
             </a>
           </div>
 
@@ -336,7 +335,7 @@ export default function Visit() {
               who doesn't mind a cold morning. No CV needed — tell us what you've done.
             </p>
             <a href="mailto:jobs@marigoldarms.co.uk" style={{ display: 'inline-block', marginTop: 'var(--space-2)', fontSize: 14 }}>
-              <SwapText>jobs@marigoldarms.co.uk</SwapText>
+              <span className="email-hover">jobs@marigoldarms.co.uk</span>
             </a>
           </div>
         </Reveal>
