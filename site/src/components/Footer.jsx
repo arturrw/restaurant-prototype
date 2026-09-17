@@ -164,14 +164,14 @@ export default function Footer() {
           </div>
 
           <div style={{ display: 'flex', gap: 14 }}>
-            <a href="https://instagram.com/marigoldarms" aria-label="Instagram" className="social-icon" style={socialIconStyle}>
+            <a href="https://instagram.com/" aria-label="Instagram" className="social-icon" style={socialIconStyle}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <rect x="3" y="3" width="18" height="18" rx="5.5" />
                 <circle cx="12" cy="12" r="4.2" />
                 <circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none" />
               </svg>
             </a>
-            <a href="https://facebook.com/marigoldarms" aria-label="Facebook" className="social-icon" style={socialIconStyle}>
+            <a href="https://facebook.com/" aria-label="Facebook" className="social-icon" style={socialIconStyle}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="9.2" stroke="currentColor" strokeWidth="1.6" />
                 <path
