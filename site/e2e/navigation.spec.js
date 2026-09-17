@@ -8,7 +8,7 @@ const navPages = [
   { path: '/visit', heading: /./ },
 ];
 
-for (const { path, heading } of navPages) {
+for (const { path } of navPages) {
   test(`${path} loads without error`, async ({ page }) => {
     const errors = [];
     page.on('pageerror', (e) => errors.push(e));
