@@ -328,7 +328,10 @@ textarea.input { min-height: 92px; resize: vertical; }
 }
 
 /* — footer social icons — */
-.social-icon:hover, .social-icon:focus-visible { color: var(--color-accent-300); }
+.social-icon:hover, .social-icon:focus-visible {
+  color: var(--color-accent-300);
+  background: color-mix(in srgb, var(--color-accent-300) 16%, transparent);
+}
 
 /* — on hover, the line slides up and out while an identical copy slides
    up into its place — used on the header nav — */

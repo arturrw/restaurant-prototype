@@ -63,7 +63,16 @@ export default function Footer() {
           <div>
             <p style={kicker}>Visit</p>
             <p style={{ fontSize: 13.5, lineHeight: 1.9, margin: 0, color: 'color-mix(in srgb, var(--paper) 72%, transparent)' }}>
-              14 Elder Street<br />London W8 4QT<br />
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=14+Elder+Street+London+W8+4QT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline-grow"
+                style={{ ...linkStyle, color: 'inherit' }}
+              >
+                14 Elder Street<br />London W8 4QT
+              </a>
+              <br />
               <a href="tel:+442079460014" className="underline-grow" style={linkStyle}>020 7946 0014</a>
             </p>
           </div>
@@ -200,9 +209,10 @@ export default function Footer() {
 }
 
 const socialIconStyle = {
-  display: 'flex',
+  display: 'flex', padding: 7, margin: -7, borderRadius: '50%',
   color: 'color-mix(in srgb, var(--paper) 62%, transparent)',
-  transition: 'color 240ms ease',
+  background: 'transparent',
+  transition: 'color 240ms ease, background-color 240ms ease',
 };
 
 const kicker = {
