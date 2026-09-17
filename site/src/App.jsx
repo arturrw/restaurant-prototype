@@ -16,7 +16,19 @@ function ScrollToTop() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
     if (!hash) {
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      // `scrollTo({ behavior: 'auto' })` isn't actually instant here — with
+      // `html { scroll-behavior: smooth }` in index.css, 'auto' just defers
+      // to that CSS and animates instead. Arriving from a page scrolled far
+      // down, that animation runs while the outgoing page is still exiting
+      // and the new one mounting (AnimatePresence), and the shifting layout
+      // under it means it doesn't reliably land on 0. Override the CSS value
+      // for this one jump, then restore it so every other (intentionally
+      // smooth) scroll on the site is unaffected. Same fix as useGoTo.js.
+      const root = document.documentElement;
+      const prevBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      window.scrollTo(0, 0);
+      root.style.scrollBehavior = prevBehavior;
       return;
     }
     // The target page may still be mid page-transition (or, arriving from
