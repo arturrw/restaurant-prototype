@@ -15,7 +15,7 @@ const isService = (id) => menuTabs.some((t) => t.id === id);
 export default function Menus() {
   const [params, setParams] = useSearchParams();
   const fromUrl = params.get('service');
-  const initialTab = isService(fromUrl) ? fromUrl : 'dinner';
+  const initialTab = isService(fromUrl) ? fromUrl : 'lunch';
   const [tab, setTab] = useState(initialTab);
 
   /* The tab list (and its pill) react to `tab` instantly — clicking should
@@ -40,7 +40,7 @@ export default function Menus() {
     }
   };
 
-  const active = menus[isService(displayTab) ? displayTab : 'dinner'];
+  const active = menus[isService(displayTab) ? displayTab : 'lunch'];
 
   /* Flattened so the lightbox can step through every photographed dish on
      the active tab with the arrow keys, independent of which column (or
@@ -49,22 +49,20 @@ export default function Menus() {
   const [openDish, setOpenDish] = useState(null);
   const navigateDish = (next) => setOpenDish(((next % photographed.length) + photographed.length) % photographed.length);
 
-  /* The pill is one measured rect rather than a `layoutId` pair. A shared
+  /* The underline is one measured bar rather than a `layoutId` pair. A shared
      layout animation here leaves a projection node alive inside the route
      subtree, which stops the route-level AnimatePresence in App.jsx from ever
      completing its exit — after switching a tab, every later navigation died. */
   const listRef = useRef(null);
-  const [bar, setBar] = useState({ left: 0, top: 0, width: 0, height: 0 });
-  const [box, setBox] = useState({ width: 0, height: 0 });
-  const pillTransition = { type: 'spring', stiffness: 420, damping: 36 };
+  const [bar, setBar] = useState({ left: 0, width: 0 });
+  const tabTransition = { type: 'spring', stiffness: 420, damping: 36 };
 
   useLayoutEffect(() => {
     const measure = () => {
       const list = listRef.current;
       const el = list?.querySelector('[aria-selected="true"]');
-      if (!list || !el) return;
-      setBar({ left: el.offsetLeft, top: el.offsetTop, width: el.offsetWidth, height: el.offsetHeight });
-      setBox({ width: list.offsetWidth, height: list.offsetHeight });
+      if (!el) return;
+      setBar({ left: el.offsetLeft, width: el.offsetWidth });
     };
     measure();
     window.addEventListener('resize', measure);
@@ -107,88 +105,40 @@ export default function Menus() {
         style={{
           position: 'relative',
           display: 'flex', justifyContent: 'center', flexWrap: 'wrap',
-          gap: 2,
-          margin: 'var(--space-8) auto', padding: 5,
-          background: 'var(--color-surface)',
-          border: '1px solid var(--color-divider)',
-          borderRadius: 999,
+          margin: 'var(--space-8) auto', borderBottom: '1px solid var(--color-divider)',
           maxWidth: 860,
         }}
       >
-        {menuTabs.map((t) => (
-          <button
-            key={t.id}
-            role="tab"
-            aria-selected={t.id === tab}
-            onClick={() => select(t.id)}
-            style={{
-              position: 'relative', background: 'none', border: 0,
-              borderRadius: 999,
-              padding: '10px 22px', cursor: 'pointer',
-              fontFamily: 'var(--font-heading)', fontSize: 17,
-              color: 'color-mix(in srgb, var(--color-text) 62%, transparent)',
-            }}
-          >
-            {t.label}
-          </button>
-        ))}
-
-        {/* The capsule carries its own paper-coloured label, clipped to its own
-            bounds, so the text only turns light exactly where the accent fill
-            has already arrived — no separate color transition to fall out of
-            sync with the sliding pill. */}
-        <motion.div
+        {menuTabs.map((t) => {
+          const on = t.id === tab;
+          return (
+            <button
+              key={t.id}
+              role="tab"
+              aria-selected={on}
+              onClick={() => select(t.id)}
+              style={{
+                position: 'relative', background: 'none', border: 0,
+                padding: '10px 22px', cursor: 'pointer',
+                fontFamily: 'var(--font-heading)', fontSize: 17,
+                color: on ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 62%, transparent)',
+                transition: 'color 240ms ease',
+              }}
+            >
+              {t.label}
+            </button>
+          );
+        })}
+        <motion.span
           aria-hidden
-          animate={{ x: bar.left, y: bar.top, width: bar.width, height: bar.height }}
+          animate={{ x: bar.left, width: bar.width }}
           initial={false}
-          transition={pillTransition}
+          transition={tabTransition}
           style={{
-            position: 'absolute', left: 0, top: 0, zIndex: 1,
-            overflow: 'hidden', borderRadius: 999,
-            background: 'var(--color-accent-700)', pointerEvents: 'none',
+            position: 'absolute', left: 0, bottom: -1,
+            height: 2, background: 'var(--color-accent)',
           }}
-        >
-          <motion.div
-            animate={{ x: -bar.left, y: -bar.top }}
-            initial={false}
-            transition={pillTransition}
-            style={{
-              position: 'absolute', left: 0, top: 0,
-              width: box.width, height: box.height,
-              display: 'flex', flexWrap: 'wrap', gap: 2, padding: 5, justifyContent: 'center',
-            }}
-          >
-            {menuTabs.map((t) => (
-              <span
-                key={t.id}
-                style={{
-                  padding: '10px 22px', whiteSpace: 'nowrap',
-                  fontFamily: 'var(--font-heading)', fontSize: 17, color: 'var(--paper)',
-                }}
-              >
-                {t.label}
-              </span>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* A small glow that rides the pill's top-right corner, half on the
-            capsule and half spilling onto the tab bar — the pill itself
-            clips its own contents to swap the label colour, so this travels
-            as a sibling rather than a child. */}
-        <motion.div
-          aria-hidden
-          animate={{ x: bar.left + bar.width, y: bar.top }}
-          initial={false}
-          transition={pillTransition}
-          style={{ position: 'absolute', left: 0, top: 0, zIndex: 2, pointerEvents: 'none' }}
-        >
-          <span className="orb-marker" style={{ transform: 'translate(-50%, -50%)' }}>
-            <span className="orb-outer" />
-            <span className="orb-mid" />
-            <span className="orb-core" />
-          </span>
-        </motion.div>
+        />
       </div>
 
       <motion.div
