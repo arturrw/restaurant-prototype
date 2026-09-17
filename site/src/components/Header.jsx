@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import LogoMark from './LogoMark.jsx';
 import PaletteSwitcher from './PaletteSwitcher.jsx';
 import SwapText from './SwapText.jsx';
-import { useGoHome } from '../hooks/useGoHome.js';
+import { useGoTo } from '../hooks/useGoTo.js';
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -17,7 +17,7 @@ const links = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const goHome = useGoHome();
+  const goTo = useGoTo();
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, restDelta: 0.001 });
@@ -63,7 +63,7 @@ export default function Header() {
         }}
       >
         <button
-          onClick={goHome}
+          onClick={() => goTo('/')}
           aria-label="The Marigold Arms — home"
           className="logo-link"
           style={{
@@ -117,7 +117,7 @@ export default function Header() {
               key={l.to}
               to={l.to}
               end={l.end}
-              onClick={l.to === '/' ? (e) => { e.preventDefault(); goHome(); } : undefined}
+              onClick={(e) => { e.preventDefault(); goTo(l.to); }}
             >
               {({ isActive }) => (
                 <span
@@ -215,8 +215,9 @@ export default function Header() {
                     to={l.to}
                     end={l.end}
                     onClick={(e) => {
+                      e.preventDefault();
                       setMenuOpen(false);
-                      if (l.to === '/') { e.preventDefault(); goHome(); }
+                      goTo(l.to);
                     }}
                     style={({ isActive }) => ({
                       fontFamily: 'var(--font-heading)',
