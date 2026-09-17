@@ -89,14 +89,6 @@ export default function Drinks() {
               </tbody>
             </table>
           </div>
-
-          <Reveal from="up" delay={0.1}>
-            <Plate
-              src={img.cellar}
-              alt="The cellar, casks stillaged"
-              style={{ height: 300, marginTop: 'calc(var(--space-8)*1.2)' }}
-            />
-          </Reveal>
         </section>
 
         <section>
@@ -123,15 +115,24 @@ export default function Drinks() {
               </tbody>
             </table>
           </div>
-
-          <Reveal from="up" delay={0.1}>
-            <Plate
-              src={img.wineCellar}
-              alt="The wine cellar, bottles racked"
-              style={{ height: 300, marginTop: 'calc(var(--space-8)*1.2)' }}
-            />
-          </Reveal>
         </section>
+      </div>
+
+      {/* A matched pair, given their own row so their heights line up
+          regardless of how the two tables above happen to balance. */}
+      <div className="wrap drinks-grid" style={{ paddingBlock: '0 calc(var(--space-8)*2)' }}>
+        <Reveal from="up">
+          <figure style={{ margin: 0 }}>
+            <Plate src={img.cellar} alt="The cellar, casks stillaged" style={{ height: 300 }} />
+            <figcaption style={{ marginTop: 'var(--space-2)', fontSize: 12 }}>The cellar, casks stillaged</figcaption>
+          </figure>
+        </Reveal>
+        <Reveal from="up" delay={0.1}>
+          <figure style={{ margin: 0 }}>
+            <Plate src={img.wineCellar} alt="The wine cellar, bottles racked" style={{ height: 300 }} />
+            <figcaption style={{ marginTop: 'var(--space-2)', fontSize: 12 }}>The wine cellar, bottles racked</figcaption>
+          </figure>
+        </Reveal>
       </div>
     </main>
   );
