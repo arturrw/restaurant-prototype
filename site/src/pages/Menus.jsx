@@ -13,14 +13,32 @@ const isService = (id) => menuTabs.some((t) => t.id === id);
 export default function Menus() {
   const [params, setParams] = useSearchParams();
   const fromUrl = params.get('service');
-  const [tab, setTab] = useState(() => (isService(fromUrl) ? fromUrl : 'dinner'));
+  const initialTab = isService(fromUrl) ? fromUrl : 'dinner';
+  const [tab, setTab] = useState(initialTab);
+
+  /* The tab list (and its pill) react to `tab` instantly — clicking should
+     always feel immediate. The dish list reacts to `displayTab`, which only
+     catches up once the old content has faded out, so switching reads as one
+     crossfade instead of the new list popping in over the old one's instant
+     removal. */
+  const [displayTab, setDisplayTab] = useState(initialTab);
+  const [contentVisible, setContentVisible] = useState(true);
 
   const select = (id) => {
+    if (id === tab) return;
     setTab(id);
     setParams({ service: id }, { replace: true });
+    setContentVisible(false);
   };
 
-  const active = menus[isService(tab) ? tab : 'dinner'];
+  const handleContentFadeComplete = () => {
+    if (!contentVisible) {
+      setDisplayTab(tab);
+      setContentVisible(true);
+    }
+  };
+
+  const active = menus[isService(displayTab) ? displayTab : 'dinner'];
 
   /* The pill is one measured rect rather than a `layoutId` pair. A shared
      layout animation here leaves a projection node alive inside the route
@@ -46,11 +64,12 @@ export default function Menus() {
     return () => window.removeEventListener('resize', measure);
   }, [tab]);
 
-  /* Switching tabs remounts the section below (see the note by it), which
-     used to snap the page to the new content's height in one frame — old
-     dish list gone, new one full-height, instantly. Animating this wrapper's
-     height between the two smooths that jump into the same motion as the
-     fade, instead of a fade happening inside an abrupt layout jump. */
+  /* `displayTab` swapping the dish list still changes its rendered height in
+     one frame. It happens while the content is faded out (see above), so it's
+     not the jarring cut it used to be, but the wrapper's own height is
+     animated too, so whatever sits below (the "Book a table" panel, footer)
+     eases into its new position instead of snapping the instant the content
+     underneath changes size. */
   const contentRef = useRef(null);
   const [contentHeight, setContentHeight] = useState('auto');
 
@@ -62,7 +81,7 @@ export default function Menus() {
     window.addEventListener('resize', measure);
     document.fonts?.ready.then(measure).catch(() => {});
     return () => window.removeEventListener('resize', measure);
-  }, [tab]);
+  }, [displayTab]);
 
   return (
     <main className="wrap" style={{ paddingBlock: 'calc(var(--space-8)*1.6) calc(var(--space-8)*2)' }}>
@@ -151,15 +170,21 @@ export default function Menus() {
         transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
         style={{ overflow: 'hidden' }}
       >
-      {/* Enter-only, keyed on the tab. Do NOT wrap this in another
-          `AnimatePresence mode="wait"` — nesting one inside the route-level
-          one in App.jsx deadlocks the route exit, and the page never swaps. */}
+      {/* One persistent section, not keyed on the tab — it used to remount per
+          tab (unmounting the old content in the same frame the new one
+          appeared), which is the abrupt cut this now avoids by fading out
+          before `displayTab` ever changes. Do NOT swap this for
+          `AnimatePresence` to get an exit animation: nesting one inside the
+          route-level one in App.jsx previously deadlocked the route exit,
+          and the page never swapped again after switching a tab once. */}
       <motion.section
-        key={tab}
         ref={contentRef}
         initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.36, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ opacity: contentVisible ? 1 : 0, y: contentVisible ? 0 : -6 }}
+        transition={contentVisible
+          ? { duration: 0.36, ease: [0.22, 1, 0.36, 1] }
+          : { duration: 0.16, ease: 'easeIn' }}
+        onAnimationComplete={handleContentFadeComplete}
         style={{ maxWidth: active.columns.length > 1 ? 980 : 820, margin: '0 auto' }}
       >
           <p
