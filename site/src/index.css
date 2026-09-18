@@ -66,10 +66,15 @@
 /* overflow-anchor: without it, the header's own scrolled-state padding
    transition (right after a scroll-to-top) nudges the browser's scroll
    anchoring to "correct" the position by a few px instead of landing on 0. */
-html { scroll-behavior: smooth; overflow-anchor: none; }
+/* `clip`, not `hidden`: it stops the page being dragged sideways on phones
+   (scroll-reveal blocks start offset ~34px to the side, which iOS Safari
+   counts as scrollable width) without turning html/body into scroll
+   containers, which would break the sticky header. */
+html { scroll-behavior: smooth; overflow-anchor: none; overflow-x: clip; }
 
 body {
   margin: 0;
+  overflow-x: clip;
   font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.55;
