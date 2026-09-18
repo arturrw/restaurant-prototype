@@ -565,3 +565,8 @@ textarea.input { min-height: 92px; resize: vertical; }
   .social-icon { padding: 11px !important; margin: -11px !important; }
   .marigold-map .leaflet-bar a { width: 40px; height: 40px; line-height: 40px; }
 }
+
+/* — the menu tab row scrolls sideways on narrow screens instead of wrapping
+   (a wrapped row left the sliding underline under only the bottom line) — */
+.menu-tabs { scrollbar-width: none; }
+.menu-tabs::-webkit-scrollbar { display: none; }

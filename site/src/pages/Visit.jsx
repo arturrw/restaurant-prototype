@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import PageIntro from '../components/PageIntro.jsx';
@@ -29,6 +29,14 @@ export default function Visit() {
   const [status, setStatus] = useState('idle');
   const [honeypot, setHoneypot] = useState('');
   const { isBot } = useFormGuard();
+  const confirmRef = useRef(null);
+
+  // The long form is swapped for a much shorter confirmation, so the page
+  // shrinks under the reader and the browser leaves them further down (on the
+  // map). Bring the confirmation back into view instead.
+  useEffect(() => {
+    if (status === 'sent') confirmRef.current?.scrollIntoView({ block: 'start' });
+  }, [status]);
 
   const set = (key) => (e) => {
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -102,6 +110,8 @@ export default function Visit() {
           {status === 'sent' ? (
               <motion.div
                 key="confirmation"
+                ref={confirmRef}
+                style={{ scrollMarginTop: 110 }}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}

@@ -63,6 +63,8 @@ export default function Menus() {
       const el = list?.querySelector('[aria-selected="true"]');
       if (!el) return;
       setBar({ left: el.offsetLeft, width: el.offsetWidth });
+      // On narrow screens the tabs scroll sideways; keep the chosen one in view.
+      list.scrollTo({ left: el.offsetLeft - (list.clientWidth - el.offsetWidth) / 2, behavior: 'smooth' });
     };
     measure();
     window.addEventListener('resize', measure);
@@ -101,10 +103,12 @@ export default function Menus() {
       <div
         role="tablist"
         aria-label="Menu service"
+        className="menu-tabs"
         ref={listRef}
         style={{
           position: 'relative',
-          display: 'flex', justifyContent: 'center', flexWrap: 'wrap',
+          display: 'flex', justifyContent: 'safe center', flexWrap: 'nowrap',
+          overflowX: 'auto',
           margin: 'var(--space-8) auto', borderBottom: '1px solid var(--color-divider)',
           maxWidth: 860,
         }}
@@ -119,6 +123,7 @@ export default function Menus() {
               onClick={() => select(t.id)}
               style={{
                 position: 'relative', background: 'none', border: 0,
+                flexShrink: 0, whiteSpace: 'nowrap',
                 padding: '10px 22px', cursor: 'pointer',
                 fontFamily: 'var(--font-heading)', fontSize: 17,
                 color: on ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 62%, transparent)',
@@ -135,7 +140,7 @@ export default function Menus() {
           initial={false}
           transition={tabTransition}
           style={{
-            position: 'absolute', left: 0, bottom: -1,
+            position: 'absolute', left: 0, bottom: 0,
             height: 2, background: 'var(--color-accent)',
           }}
         />
