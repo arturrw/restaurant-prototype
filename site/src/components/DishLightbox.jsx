@@ -12,10 +12,10 @@ export default function DishLightbox({ dishes, index, onClose, onNavigate }) {
       if (e.key === 'ArrowLeft') onNavigate(index - 1);
     };
     document.addEventListener('keydown', onKey);
-    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [open, index, onClose, onNavigate]);
 

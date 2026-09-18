@@ -30,8 +30,12 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    // On <html>, not <body>: with overflow-x clipped on both (index.css), a
+    // body-level overflow:hidden makes body its own scroll container and the
+    // sticky header stops following the window.
+    const root = document.documentElement;
+    root.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { root.style.overflow = ''; };
   }, [menuOpen]);
 
   return (
