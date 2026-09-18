@@ -521,19 +521,19 @@ textarea.input { min-height: 92px; resize: vertical; }
 }
 .ambient-glow__blob--a {
   top: -10%; left: -8%;
-  width: 46vw; height: 46vw;
+  width: max(46vw, 340px); height: max(46vw, 340px);
   background: var(--color-accent);
   animation: ambient-pulse-a 6s ease-in-out infinite;
 }
 .ambient-glow__blob--b {
   top: 46%; right: -10%;
-  width: 40vw; height: 40vw;
+  width: max(40vw, 300px); height: max(40vw, 300px);
   background: var(--color-accent-400);
   animation: ambient-pulse-b 7.5s ease-in-out infinite;
 }
 .ambient-glow__blob--c {
   bottom: -12%; left: 26%;
-  width: 38vw; height: 38vw;
+  width: max(38vw, 300px); height: max(38vw, 300px);
   background: var(--color-accent-700);
   animation: ambient-pulse-c 5s ease-in-out infinite;
 }
