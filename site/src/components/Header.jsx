@@ -30,14 +30,29 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Tapping anywhere on the page behind the open drawer closes it.
+  // Tapping (not dragging) the page behind the open drawer closes it. Reacting
+  // to pointerdown alone would also close it the moment a scroll gesture starts,
+  // so wait for pointerup, and ignore anything that moved or was cancelled
+  // (the browser cancels the pointer once it takes over as a scroll).
   useEffect(() => {
     if (!menuOpen) return;
-    const onPointerDown = (e) => {
-      if (!headerRef.current?.contains(e.target)) setMenuOpen(false);
+    let start = null;
+    const onDown = (e) => {
+      start = headerRef.current?.contains(e.target) ? null : { x: e.clientX, y: e.clientY };
     };
-    document.addEventListener('pointerdown', onPointerDown);
-    return () => document.removeEventListener('pointerdown', onPointerDown);
+    const onUp = (e) => {
+      if (start && Math.hypot(e.clientX - start.x, e.clientY - start.y) < 10) setMenuOpen(false);
+      start = null;
+    };
+    const onCancel = () => { start = null; };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('pointerup', onUp);
+    document.addEventListener('pointercancel', onCancel);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('pointerup', onUp);
+      document.removeEventListener('pointercancel', onCancel);
+    };
   }, [menuOpen]);
 
   return (
