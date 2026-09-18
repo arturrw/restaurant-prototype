@@ -139,7 +139,7 @@ export default function Footer() {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="btn btn-primary"
+                className="btn btn-primary hero-cta"
                 style={{ letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: 12, borderColor: 'var(--color-accent-300)', color: 'var(--color-accent-300)' }}
               >
                 {status === 'sending' ? 'Sending…' : 'Subscribe'}
