@@ -39,33 +39,10 @@ docker compose up --build   # http://localhost:8080
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    Browser(["Browser"])
-
-    subgraph prod["docker compose up --build"]
-        direction LR
-        Site["site\n(Vite build → dist/)"] -->|copies dist/ into shared volume| Vol[("shared volume")]
-        Vol --> Nginx["nginx :8080"]
-        Postgres[("postgres :5432")]
-    end
-
-    subgraph devMode["docker compose --profile dev up site-dev"]
-        SiteDev["site-dev\nVite dev server, HMR"]
-    end
-
-    Browser -->|":8080"| Nginx
-    Browser -->|":5173, local dev"| SiteDev
-
-    FutureAPI["Future API\n(not built yet)"] -.-> Postgres
-    FutureAPI -.->|would replace the frontend's\nno-op form submits| Browser
-```
-
-Frontend, data layer and reverse proxy are separate Compose services so a
-real API can be slotted in between the frontend and the database later
-without restructuring anything that already works. Full breakdown,
-including why each piece is split out this way, in
-**[ARCHITECTURE.md](ARCHITECTURE.md)**.
+Frontend, data layer and reverse proxy run as separate Docker Compose
+services so a real API can be slotted in between the frontend and the
+database later without restructuring anything that already works. Diagram
+and full breakdown in **[ARCHITECTURE.md](ARCHITECTURE.md)**.
 
 ## Layout
 
