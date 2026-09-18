@@ -12,6 +12,36 @@ prototype-restoraunt/
 └── Marigold Arms.dc.html   Original static prototype the site was built from
 ```
 
+## Diagram
+
+```mermaid
+flowchart LR
+    Browser(["Browser"])
+
+    subgraph prod["docker compose up --build"]
+        direction LR
+        Site["site\n(Vite build → dist/)"] -->|copies dist/ into shared volume| Vol[("shared volume")]
+        Vol --> Nginx["nginx :8080"]
+        Postgres[("postgres :5432")]
+    end
+
+    subgraph devMode["docker compose --profile dev up site-dev"]
+        SiteDev["site-dev\nVite dev server, HMR"]
+    end
+
+    Browser -->|":8080"| Nginx
+    Browser -->|":5173, local dev"| SiteDev
+
+    FutureAPI["Future API\n(not built yet)"] -.-> Postgres
+    FutureAPI -.->|would replace the frontend's\nno-op form submits| Browser
+```
+
+`site` and `site-dev` are two build targets of the same Dockerfile (`build`
+and `dev`), never both running at once for the same purpose — `site` is
+the one-shot builder behind the default `docker compose up`, `site-dev` is
+the opt-in live-reload path. `postgres` sits ready for a backend that
+doesn't exist yet; see [API.md](API.md).
+
 ## Frontend (`site/`)
 
 - **Vite + React 18 + React Router 6.** Client-side routed SPA, no server
