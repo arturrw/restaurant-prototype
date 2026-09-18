@@ -78,7 +78,6 @@ export default function Header() {
               height: scrolled ? 22 : 28,
               color: 'var(--color-accent-700)',
               flexShrink: 0,
-              transition: 'width 380ms ease, height 380ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           />
           <span style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
