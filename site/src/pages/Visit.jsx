@@ -226,7 +226,7 @@ export default function Visit() {
                   <Field label="Guests" error={errors.guests}>
                     <input
                       className="input" type="text" inputMode="numeric" maxLength={2}
-                      value={form.guests} onChange={setGuests} aria-invalid={!!errors.guests}
+                      value={form.guests} onChange={setGuests} aria-invalid={!!errors.guests} aria-label="Guests"
                     />
                   </Field>
                 </div>

@@ -40,7 +40,7 @@ export default function LocationMap({ style }) {
       style={{ height: 300, borderRadius: 'var(--radius-md)', ...style }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Marker position={position} icon={pinIcon}>
+      <Marker position={position} icon={pinIcon} title="The Marigold Arms" alt="The Marigold Arms">
         <Popup>
           The Marigold Arms<br />14 Elder Street, W8 4QT
         </Popup>

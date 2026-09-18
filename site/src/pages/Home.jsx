@@ -122,7 +122,7 @@ export default function Home() {
             display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)',
             justifyContent: 'center', alignItems: 'center',
             fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase',
-            color: 'color-mix(in srgb, var(--color-text) 58%, transparent)',
+            color: 'color-mix(in srgb, var(--color-text) 68%, transparent)',
             textAlign: 'center',
           }}
         >
@@ -338,7 +338,7 @@ export default function Home() {
                     borderBottom: i < 2 ? '1px solid var(--color-divider)' : 'none',
                   }}
                 >
-                  <span style={{ width: 120, color: 'color-mix(in srgb, var(--color-text) 55%, transparent)' }}>{days}</span>
+                  <span style={{ width: 120, color: 'color-mix(in srgb, var(--color-text) 68%, transparent)' }}>{days}</span>
                   <span>{hours}</span>
                 </RevealItem>
               ))}

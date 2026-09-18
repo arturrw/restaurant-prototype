@@ -64,7 +64,6 @@ export default function Header() {
       >
         <button
           onClick={() => goTo('/')}
-          aria-label="The Marigold Arms — home"
           className="logo-link"
           style={{
             display: 'flex', alignItems: 'center', gap: 10,

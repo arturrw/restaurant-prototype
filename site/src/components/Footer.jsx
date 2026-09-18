@@ -181,7 +181,7 @@ export default function Footer() {
             <p
               style={{
                 margin: '8px 0 0', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase',
-                color: 'color-mix(in srgb, var(--paper) 45%, transparent)',
+                color: 'color-mix(in srgb, var(--paper) 62%, transparent)',
               }}
             >
               © 2026 The Marigold Arms — a prototype
