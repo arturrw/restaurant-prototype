@@ -273,8 +273,15 @@ export default function Visit() {
           <div>
             <h3 style={asideHeading}>Finding us</h3>
             <p style={{ margin: 'var(--space-4) 0 0', fontSize: 15, lineHeight: 1.9 }}>
-              14 Elder Street<br />
-              Kensington, London W8 4QT<br />
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=14+Elder+Street+London+W8+4QT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline-grow-lines"
+                style={{ color: 'inherit' }}
+              >
+                14 Elder Street<br />Kensington, London W8 4QT
+              </a><br />
               <a href="tel:+442079460014">020 7946 0014</a><br />
               <a href="mailto:table@marigoldarms.co.uk"><span className="email-hover">table@marigoldarms.co.uk</span></a>
             </p>
