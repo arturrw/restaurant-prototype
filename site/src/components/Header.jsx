@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import LogoMark from './LogoMark.jsx';
@@ -18,6 +18,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const goTo = useGoTo();
+  const headerRef = useRef(null);
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, restDelta: 0.001 });
@@ -29,8 +30,19 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Tapping anywhere on the page behind the open drawer closes it.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onPointerDown = (e) => {
+      if (!headerRef.current?.contains(e.target)) setMenuOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [menuOpen]);
+
   return (
     <header
+      ref={headerRef}
       className="site-header"
       style={{
         position: 'sticky',
