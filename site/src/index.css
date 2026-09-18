@@ -558,3 +558,10 @@ textarea.input { min-height: 92px; resize: vertical; }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* — touch screens: bigger tap targets for the small controls — */
+@media (pointer: coarse) {
+  .cal-nav { width: 40px; height: 40px; }
+  .social-icon { padding: 11px !important; margin: -11px !important; }
+  .marigold-map .leaflet-bar a { width: 40px; height: 40px; line-height: 40px; }
+}

@@ -34,6 +34,7 @@ export default function LocationMap({ style }) {
       center={position}
       zoom={16}
       scrollWheelZoom
+      dragging={!L.Browser.mobile}
       attributionControl={false}
       className="marigold-map"
       style={{ height: 300, borderRadius: 'var(--radius-md)', ...style }}
